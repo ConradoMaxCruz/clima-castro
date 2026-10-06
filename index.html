@@ -560,7 +560,7 @@ font-size:12.5px;line-height:1.45;color:#dbe6ff;box-shadow:0 12px 30px rgba(0,0,
       <p class="caveat">Ressalvas: MET Norway usa base ECMWF (não é totalmente independente); INMET não fornece milímetros nem probabilidade; wttr.in cobre só 3 dias; o número de fontes cai nos últimos dias do período. Alertas: INMET (fonte oficial). Previsões podem mudar — consulte a Defesa Civil (199) em emergências.</p>
     </div>
   </div>
-  <div class="foot-meta">Painel gerado automaticamente em 06/10/2026 às 16:15 (BRT) · dados de 06/10 11:37 (BRT) · período 06/10 a 12/10</div>
+  <div class="foot-meta">Painel gerado automaticamente em 06/10/2026 às 16:25 (BRT) · dados de 06/10 11:37 (BRT) · período 06/10 a 12/10</div>
 </footer>
 </section>
 <section class="city" data-slug="ponta-grossa" data-title="Clima em Ponta Grossa-PR — 06/10" aria-label="Previsão para Ponta Grossa-PR" hidden>
@@ -782,7 +782,7 @@ font-size:12.5px;line-height:1.45;color:#dbe6ff;box-shadow:0 12px 30px rgba(0,0,
       <p class="caveat">Ressalvas: MET Norway usa base ECMWF (não é totalmente independente); INMET não fornece milímetros nem probabilidade; wttr.in cobre só 3 dias; o número de fontes cai nos últimos dias do período. Alertas: INMET (fonte oficial). Previsões podem mudar — consulte a Defesa Civil (199) em emergências.</p>
     </div>
   </div>
-  <div class="foot-meta">Painel gerado automaticamente em 06/10/2026 às 16:15 (BRT) · dados de 06/10 11:38 (BRT) · período 06/10 a 12/10</div>
+  <div class="foot-meta">Painel gerado automaticamente em 06/10/2026 às 16:25 (BRT) · dados de 06/10 11:38 (BRT) · período 06/10 a 12/10</div>
 </footer>
 </section>
 <section class="city" data-slug="live" aria-label="Previsão consultada ao vivo" hidden></section>
@@ -1031,21 +1031,31 @@ font-size:12.5px;line-height:1.45;color:#dbe6ff;box-shadow:0 12px 30px rgba(0,0,
   function fetchDaily(coords){
     var url='https://api.open-meteo.com/v1/forecast?latitude='+coords.lat+'&longitude='+coords.lon+(coords.alt!=null?'&elevation='+coords.alt:'')+
       '&daily='+DAILY+'&models='+MODELS.map(function(m){return m[0];}).join(',')+'&timezone=auto&forecast_days=7';
-    return getJSON(url,20000);
+    return getJSON(url,25000);
   }
   function tryInmet(ibge){
-    // INMET não envia Access-Control-Allow-Origin — o fetch do navegador falha por CORS.
-    // Tentamos mesmo assim; em falha devolvemos {ok:false,cors:true}.
+    // INMET pode ser lento (~0,5 MB de avisos) ou falhar por CORS/rede. Nunca deve derrubar a atualização:
+    // timeout curto (6 s) e qualquer erro vira {ok:false}.
     if(!ibge) return Promise.resolve({ok:false,reason:'sem IBGE'});
-    var base='https://apiprevmet3.inmet.gov.br';
+    var base='https://apiprevmet3.inmet.gov.br', ms=6000;
     return Promise.all([
-      getJSON(base+'/previsao/'+ibge,8000).catch(function(e){ return {_err:e}; }),
-      getJSON(base+'/avisos/ativos',8000).catch(function(e){ return {_err:e}; })
+      getJSON(base+'/previsao/'+ibge,ms).then(function(j){return {ok:true,data:j};},function(e){return {ok:false,err:e};}),
+      getJSON(base+'/avisos/ativos',ms).then(function(j){return {ok:true,data:j};},function(e){return {ok:false,err:e};})
     ]).then(function(pair){
       var prev=pair[0], av=pair[1];
-      if(prev&&prev._err) return {ok:false,cors:!!(prev._err.net||prev._err.http||true), err:prev._err};
-      if(av&&av._err) return {ok:false,cors:true, err:av._err, prev:prev};
-      return {ok:true, prev:prev, avisos:av};
+      if(!prev.ok) return {ok:false,cors:true,err:prev.err};
+      if(!av.ok) return {ok:false,cors:true,err:av.err,prev:prev.data};
+      return {ok:true,prev:prev.data,avisos:av.data};
+    });
+  }
+  function fetchDailyAndHourly(coords){
+    // Paralelo; se o horário falhar, ainda atualizamos o consenso diário (chuva hora a hora usa embutido/anterior).
+    return Promise.all([
+      fetchDaily(coords).then(function(j){return {ok:true,data:j};},function(e){return {ok:false,err:e};}),
+      fetchHourly(coords).then(function(r){return {ok:true,data:r};},function(e){return {ok:false,err:e};})
+    ]).then(function(pair){
+      if(!pair[0].ok) throw pair[0].err||new Error('falha na previsão diária');
+      return {daily:pair[0].data, hourly:pair[1].ok?pair[1].data:null, hourlyErr:pair[1].ok?null:pair[1].err};
     });
   }
   function todayISO_BRT(){
@@ -1137,7 +1147,7 @@ font-size:12.5px;line-height:1.45;color:#dbe6ff;box-shadow:0 12px 30px rgba(0,0,
   function fetchHourly(c){
     var url='https://api.open-meteo.com/v1/forecast?latitude='+c.lat+'&longitude='+c.lon+(c.alt!=null?'&elevation='+c.alt:'')+
       '&hourly=precipitation,precipitation_probability&models='+HMODELS.map(function(m){return m[0];}).join(',')+'&timezone=auto&forecast_days=4&timeformat=unixtime';
-    return getJSON(url,20000).then(function(j){ var s=hourlySeries(j); if(!s.length) throw new Error('sem dados horários para este local'); return {series:s,off:j.utc_offset_seconds}; });
+    return getJSON(url,25000).then(function(j){ var s=hourlySeries(j); if(!s.length) throw new Error('sem dados horários para este local'); return {series:s,off:j.utc_offset_seconds}; });
   }
   function aggregate(series,t0){
     var hrs=[];
@@ -1461,9 +1471,6 @@ font-size:12.5px;line-height:1.45;color:#dbe6ff;box-shadow:0 12px 30px rgba(0,0,
     if(RST){ RST.textContent=msg||''; RST.className='rstatus'+(cls?' '+cls:''); }
     if(BTN){ BTN.disabled=!!busy; BTN.classList.toggle('busy',!!busy); }
   }
-  function fetchDailyAndHourly(coords){
-    return Promise.all([fetchDaily(coords), fetchHourly(coords)]);
-  }
   function applyRefreshed(slug, cityMeta, j, hres, alertsHtml, noteExtra){
     var C=consensus(j);
     if(!C.days.length) throw new Error('Nenhum modelo retornou previsão');
@@ -1476,7 +1483,9 @@ font-size:12.5px;line-height:1.45;color:#dbe6ff;box-shadow:0 12px 30px rgba(0,0,
     if(!sec) throw new Error('seção da cidade não encontrada');
     sec.innerHTML=R.html; sec.setAttribute('data-title',R.title);
     var emb=(HST[slug]&&HST[slug].emb)||(HEMB[slug]||null);
-    HST[slug]={coords:{lat:cityMeta.lat||cityMeta.latitude,lon:cityMeta.lon||cityMeta.longitude,alt:cityMeta.alt},emb:emb,live:hres,liveAt:Date.now(),tzOff:hres&&hres.off,rendered:false};
+    var prev=HST[slug]||{};
+    HST[slug]={coords:{lat:cityMeta.lat||cityMeta.latitude,lon:cityMeta.lon||cityMeta.longitude,alt:cityMeta.alt},emb:emb,
+      live:hres||prev.live,liveAt:Date.now(),tzOff:(hres&&hres.off)!=null?hres.off:prev.tzOff,rendered:false};
     showSection(slug); document.title=R.title; observe(sec); renderHourly(slug,{});
     return R;
   }
@@ -1487,60 +1496,77 @@ font-size:12.5px;line-height:1.45;color:#dbe6ff;box-shadow:0 12px 30px rgba(0,0,
     var ago=Date.now()-lastRefAt;
     if(lastRefAt&&ago<REF_MIN){ setR('Aguarde '+Math.ceil((REF_MIN-ago)/1000)+' s antes de atualizar de novo.','warn'); return; }
     var slug=current, my=++token;
-    refreshing=true; setR('Atualizando…','',true);
+    refreshing=true; setR('Atualizando modelos…','',true);
+
+    function finishOk(msg,cls){ lastRefAt=Date.now(); refreshing=false; setR(msg,cls||'ok'); }
+    function finishErr(e){ refreshing=false; setR(errMsg(e,'não foi possível atualizar — dados anteriores mantidos'),'err'); }
+    function hhmm(){ return brt(new Date(),{hour:'2-digit',minute:'2-digit'}); }
+
     if(slug==='live'){
       if(!lastLive){ refreshing=false; setR('Nenhuma cidade ao vivo para atualizar.','err'); return; }
       var g=lastLive, coords={lat:g.latitude,lon:g.longitude,alt:g.elevation};
-      fetchDailyAndHourly(coords).then(function(pair){
+      fetchDailyAndHourly(coords).then(function(res){
         if(my!==token) return;
-        var j=pair[0], hres=pair[1];
+        var j=res.daily, hres=res.hourly;
         var C=consensus(j); if(!C.days.length) throw new Error('Nenhum modelo retornou previsão');
         var off=(j.utc_offset_seconds||0)*1000, todayISO=new Date(Date.now()+off).toISOString().slice(0,10);
         var R=renderLive({city:{name:g.name,admin1:g.admin1||'',country:g.country||'',cc:g.country_code||''},days:C.days,used:C.used,todayISO:todayISO,
           at:new Date(),elev:g.elevation!=null?g.elevation:j.elevation,tz:j.timezone||'',lat:j.latitude,lon:j.longitude,
           hourlySlug:'live', tag:'agora', updLab:'Atualizado'});
         LIVE.innerHTML=R.html; LIVE.setAttribute('data-title',R.title);
-        HST.live={coords:coords,emb:null,live:hres,liveAt:Date.now(),tzOff:hres.off,rendered:false};
+        var prevLive=HST.live&&HST.live.live;
+        HST.live={coords:coords,emb:null,live:hres||prevLive,liveAt:Date.now(),tzOff:(hres&&hres.off)||(HST.live&&HST.live.tzOff),rendered:false,
+          err:hres?null:(res.hourlyErr&&res.hourlyErr.message)};
         showSection('live'); document.title=R.title; renderHourly('live',{});
-        lastRefAt=Date.now(); refreshing=false;
-        setR('Atualizado às '+brt(new Date(),{hour:'2-digit',minute:'2-digit'})+' (BRT) — '+R.n+' modelos.','ok');
-      }).catch(function(e){
-        if(my!==token) return; refreshing=false;
-        setR(errMsg(e,'não foi possível atualizar — dados anteriores mantidos'),'err');
-      });
+        var msg='Atualizado às '+hhmm()+' (BRT) — '+R.n+' modelos';
+        if(!hres) msg+=' · chuva hora a hora anterior mantida';
+        finishOk(msg,'ok');
+      }).catch(function(e){ if(my!==token) return; finishErr(e); });
       return;
     }
+
     var c=CITIES.filter(function(x){return x.slug===slug;})[0];
     if(!c){ refreshing=false; setR('Cidade desconhecida.','err'); return; }
     var coords={lat:c.lat,lon:c.lon,alt:c.alt};
     var sec=document.querySelector('.city[data-slug="'+slug+'"]');
     var keepAlerts=sec?[].slice.call(sec.querySelectorAll('.alert')).map(function(el){return el.outerHTML;}).join(''):'';
-    // tenta INMET (deve falhar por CORS); em paralelo com Open-Meteo
-    Promise.all([
-      fetchDailyAndHourly(coords),
-      tryInmet(c.ibge)
-    ]).then(function(all){
+    var cityMeta={name:c.nome,label:c.label,uf:c.uf,admin1:'Paraná',country:'Brasil',cc:'BR',lat:c.lat,lon:c.lon,alt:c.alt,
+      sub:(c.slug==='castro'?'Campos Gerais · Paraná · ~1.000 m de altitude':'Campos Gerais · Paraná · ~950 m de altitude')};
+
+    // 1) Open-Meteo primeiro (não espera INMET). 2) INMET em seguida, opcional, sem derrubar o resultado.
+    fetchDailyAndHourly(coords).then(function(res){
       if(my!==token) return;
-      var j=all[0][0], hres=all[0][1], inm=all[1];
-      var alertsHtml=keepAlerts, noteExtra='';
-      if(inm&&inm.ok){
-        var fresh=alertsHtmlFromInmet(inm.avisos, c.ibge, todayISO_BRT());
-        if(fresh) alertsHtml=fresh;
-        noteExtra=' Previsão e alertas do INMET também foram consultados.';
-      } else {
-        noteExtra=' Fontes nacionais (INMET, Simepar, Climatempo) não puderam ser atualizadas no navegador'+(inm&&inm.cors?' (o INMET bloqueia CORS)':'')+' — alertas e dados oficiais embutidos na página foram mantidos.';
-      }
-      var R=applyRefreshed(slug,{name:c.nome,label:c.label,uf:c.uf,admin1:'Paraná',country:'Brasil',cc:'BR',lat:c.lat,lon:c.lon,alt:c.alt,
-        sub:(c.slug==='castro'?'Campos Gerais · Paraná · ~1.000 m de altitude':'Campos Gerais · Paraná · ~950 m de altitude')},
-        j,hres,alertsHtml,noteExtra);
-      lastRefAt=Date.now(); refreshing=false;
-      var msg='Atualizado às '+brt(new Date(),{hour:'2-digit',minute:'2-digit'})+' (BRT) — '+R.n+' modelos';
-      if(!(inm&&inm.ok)) msg+='; INMET mantido (embutido)';
-      setR(msg+(inm&&inm.ok?' + INMET':''), inm&&inm.ok?'ok':'warn');
-    }).catch(function(e){
-      if(my!==token) return; refreshing=false;
-      setR(errMsg(e,'não foi possível atualizar — dados anteriores mantidos'),'err');
-    });
+      var j=res.daily, hres=res.hourly;
+      var noteExtra=' Alertas oficiais embutidos na página foram mantidos; consultando INMET…';
+      var R=applyRefreshed(slug,cityMeta,j,hres||(HST[slug]&&HST[slug].live),keepAlerts,noteExtra);
+      if(!hres&&HST[slug]){ /* applyRefreshed already set live; keep previous if hourly failed */ }
+      var base='Atualizado às '+hhmm()+' (BRT) — '+R.n+' modelos';
+      if(!hres) base+=' · chuva hora a hora anterior mantida';
+      setR(base+' · consultando INMET…','warn');
+      // INMET opcional (6 s); sucesso parcial já está na tela
+      return tryInmet(c.ibge).then(function(inm){
+        if(my!==token) return;
+        if(inm&&inm.ok){
+          var fresh=alertsHtmlFromInmet(inm.avisos,c.ibge,todayISO_BRT());
+          if(fresh){
+            var host=document.querySelector('.city[data-slug="'+slug+'"]');
+            if(host){
+              var oldA=host.querySelectorAll('.alert'), i;
+              for(i=0;i<oldA.length;i++) oldA[i].remove();
+              var note=host.querySelector('.livenote');
+              if(note) note.insertAdjacentHTML('beforebegin',fresh);
+              else{ var hdr=host.querySelector('header.top'); if(hdr) hdr.insertAdjacentHTML('afterend',fresh); }
+              var ln=host.querySelector('.livenote');
+              if(ln) ln.innerHTML='<span class="livetag">agora</span><b>Consenso de '+R.n+' modelos (atualizado agora)</b>, recalculado no seu navegador com dados do Open-Meteo. Previsão e alertas do INMET também foram consultados.';
+            }
+          }
+          finishOk(base+' + INMET','ok');
+        } else {
+          var why=(inm&&inm.err&&inm.err.message==='tempo esgotado')?'INMET demorou (mantido o embutido)':'INMET mantido (embutido)';
+          finishOk(base+' · '+why,'warn');
+        }
+      },function(){ if(my!==token) return; finishOk(base+' · INMET mantido (embutido)','warn'); });
+    }).catch(function(e){ if(my!==token) return; finishErr(e); });
   }
   if(BTN) BTN.addEventListener('click',refreshNow);
   ensureHourly(current);
