@@ -238,6 +238,19 @@ transition:background .2s,border-color .2s,transform .2s}
 .livenote b{color:#fff}
 .livetag{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#7fe6ac;background:rgba(53,208,127,.13);
 border:1px solid rgba(53,208,127,.4);padding:2px 9px;border-radius:999px;margin-right:6px;vertical-align:1px}
+/* botão Atualizar agora */
+.refresh-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;flex-basis:100%}
+.rbtn{display:inline-flex;align-items:center;gap:8px;font:inherit;font-size:13.5px;font-weight:700;color:#dbe6ff;background:linear-gradient(145deg,rgba(90,179,255,.18),rgba(127,92,255,.14));
+border:1px solid rgba(90,179,255,.45);padding:8px 14px;border-radius:999px;cursor:pointer;transition:background .2s,border-color .2s,transform .2s,opacity .2s}
+.rbtn:hover:not(:disabled){background:linear-gradient(145deg,rgba(90,179,255,.28),rgba(127,92,255,.22));transform:translateY(-1px)}
+.rbtn:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.rbtn:disabled{opacity:.55;cursor:wait;transform:none}
+.rico{width:16px;height:16px;flex:none}
+.rbtn.busy .rico{animation:spin .8s linear infinite}
+.rstatus{font-size:13px;color:var(--mut);min-height:1.2em}
+.rstatus.ok{color:#7fe6ac}.rstatus.err{color:#ffb4a8}.rstatus.warn{color:#ffcf7a}
+.rnote{background:rgba(90,179,255,.10);border:1px solid rgba(90,179,255,.35);color:#cfe3ff;padding:9px 13px;border-radius:12px;margin-bottom:14px;font-size:13.5px}
+.rnote b{color:#fff}
 /* chuva hora a hora */
 .hourly{margin-bottom:28px}
 .hourly h2.sec{flex-wrap:wrap;row-gap:2px}
@@ -286,7 +299,7 @@ font-size:12.5px;line-height:1.45;color:#dbe6ff;box-shadow:0 12px 30px rgba(0,0,
  .day{flex:0 0 150px;scroll-snap-align:start}
  .today{padding:18px}.today-hero{flex-direction:column;align-items:flex-start}.today-icon .wx{width:150px;height:137px}
  .chart .xl{font-size:17px}.chart .xl2{display:none}.chart .prob{font-size:16px}.chart .val{font-size:16px}.chart .ax{font-size:15px}
- .sbox{flex-basis:100%;max-width:none}.sec-sub{flex-basis:100%;padding-left:14px}.hr-sum{font-size:15px}.hr-panel{padding:10px 8px 6px}.hr-panel .legend{gap:4px 12px;font-size:12px}.qlab{display:none}.cchip{font-size:13px;padding:6px 11px}
+ .sbox{flex-basis:100%;max-width:none}.refresh-row{order:3}.sec-sub{flex-basis:100%;padding-left:14px}.hr-sum{font-size:15px}.hr-panel{padding:10px 8px 6px}.hr-panel .legend{gap:4px 12px;font-size:12px}.qlab{display:none}.cchip{font-size:13px;padding:6px 11px}
  .t-max{font-size:72px}.stat .v{font-size:24px}.alert{flex-direction:column;gap:8px;padding:16px}.alert h2{font-size:20px}
 }
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}
@@ -318,6 +331,13 @@ font-size:12.5px;line-height:1.45;color:#dbe6ff;box-shadow:0 12px 30px rgba(0,0,
     <ul id="sugg" class="sugg" role="listbox" aria-label="Sugestões de cidades" hidden></ul>
   </div>
   <div class="qpick"><span class="qlab">Consenso completo:</span><button type="button" class="cchip" data-slug="castro" aria-pressed="true" title="Consenso de 13 fontes">Castro-PR</button><button type="button" class="cchip" data-slug="ponta-grossa" aria-pressed="false" title="Consenso de 13 fontes">Ponta Grossa-PR</button><span class="livechip-slot"></span></div>
+  <div class="refresh-row">
+    <button type="button" id="refresh" class="rbtn" aria-label="Atualizar previsão da cidade atual agora">
+      <svg class="rico" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.65 6.35A7.95 7.95 0 0 0 12 4a8 8 0 1 0 7.75 10h-2.1A6 6 0 1 1 12 6c1.48 0 2.83.54 3.88 1.42L13 11h7V4l-2.35 2.35Z" fill="currentColor"/></svg>
+      <span class="rlab">Atualizar agora</span>
+    </button>
+    <span id="rstatus" class="rstatus" role="status" aria-live="polite"></span>
+  </div>
   <div id="sstatus" class="sstatus" role="status" aria-live="polite"></div>
 </div>
 
@@ -540,7 +560,7 @@ font-size:12.5px;line-height:1.45;color:#dbe6ff;box-shadow:0 12px 30px rgba(0,0,
       <p class="caveat">Ressalvas: MET Norway usa base ECMWF (não é totalmente independente); INMET não fornece milímetros nem probabilidade; wttr.in cobre só 3 dias; o número de fontes cai nos últimos dias do período. Alertas: INMET (fonte oficial). Previsões podem mudar — consulte a Defesa Civil (199) em emergências.</p>
     </div>
   </div>
-  <div class="foot-meta">Painel gerado automaticamente em 06/10/2026 às 12:08 (BRT) · dados de 06/10 11:37 (BRT) · período 06/10 a 12/10</div>
+  <div class="foot-meta">Painel gerado automaticamente em 06/10/2026 às 16:11 (BRT) · dados de 06/10 11:37 (BRT) · período 06/10 a 12/10</div>
 </footer>
 </section>
 <section class="city" data-slug="ponta-grossa" data-title="Clima em Ponta Grossa-PR — 06/10" aria-label="Previsão para Ponta Grossa-PR" hidden>
@@ -762,13 +782,13 @@ font-size:12.5px;line-height:1.45;color:#dbe6ff;box-shadow:0 12px 30px rgba(0,0,
       <p class="caveat">Ressalvas: MET Norway usa base ECMWF (não é totalmente independente); INMET não fornece milímetros nem probabilidade; wttr.in cobre só 3 dias; o número de fontes cai nos últimos dias do período. Alertas: INMET (fonte oficial). Previsões podem mudar — consulte a Defesa Civil (199) em emergências.</p>
     </div>
   </div>
-  <div class="foot-meta">Painel gerado automaticamente em 06/10/2026 às 12:08 (BRT) · dados de 06/10 11:38 (BRT) · período 06/10 a 12/10</div>
+  <div class="foot-meta">Painel gerado automaticamente em 06/10/2026 às 16:11 (BRT) · dados de 06/10 11:38 (BRT) · período 06/10 a 12/10</div>
 </footer>
 </section>
 <section class="city" data-slug="live" aria-label="Previsão consultada ao vivo" hidden></section>
 </main>
-<script id="cidades-data" type="application/json">[{"slug": "castro", "nome": "Castro", "uf": "PR", "label": "Castro-PR", "lat": -24.79, "lon": -50.01, "title": "Clima em Castro-PR — 06/10", "n": 13, "padrao": true}, {"slug": "ponta-grossa", "nome": "Ponta Grossa", "uf": "PR", "label": "Ponta Grossa-PR", "lat": -25.095, "lon": -50.162, "title": "Clima em Ponta Grossa-PR — 06/10", "n": 13, "padrao": false}]</script>
-<script id="hourly-data" type="application/json">{"castro":{"lat":-24.79,"lon":-50.01,"alt":1000,"series":[{"name":"ECMWF IFS 0.25","start":1791298800,"mm":[2.5,2.5,2.5,0.7,0.7,0.7,0.1,0.1,0.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1,0.1,0.1,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.5,0.5,0.5,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1,0.1,0.1,1.7,1.7,1.7,0.2,0.2,0.2,0.0,0.0,0.0,0.0,0.0],"p":[100,100,100,100,100,98,91,80,69,57,44,33,24,17,12,8,6,4,1,0,0,5,14,24,37,51,61,65,65,61,49,33,20,15,14,12,8,3,0,0,0,0,0,0,0,0,0,4,22,45,61,63,57,51,45,39,33,29,27,24,20,16,12,7,3,0,0,0,2,5,10,20,42,70,88,88,78,67,57,46,37,33,32]},{"name":"NOAA GFS","start":1791298800,"mm":[0.5,0.5,0.1,0.1,0.3,0.3,0.2,0.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.7,0.5,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.2,3.8,2.1,3.1,1.7,0.5,0.1,0.4],"p":[100,100,100,100,99,97,94,90,81,63,41,23,13,7,3,2,2,3,2,2,3,8,14,23,34,48,58,65,69,68,60,48,35,22,9,0,0,3,6,6,4,3,1,0,0,5,12,19,27,35,42,50,58,58,45,24,10,8,12,16,16,16,16,17,18,19,22,25,26,24,21,19,20,23,26,29,33,35,34,31,32,40,52]},{"name":"DWD ICON","start":1791298800,"mm":[0.3,0.8,2.2,3.3,1.0,0.7,0.8,0.4,0.5,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1,0.0,0.0,0.0,0.0,3.8,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1,0.1,0.1,0.2,0.2,0.2,0.2,0.2,0.2,1.7,1.7],"p":[85,93,98,100,98,93,88,93,85,78,60,33,30,25,10,10,5,0,0,0,0,0,0,0,8,15,23,5,0,8,5,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,14,20,21,20,20,32,34,35,35,33,31,29,26,23,19,14,8,3,0,0,3,9,17,26,34,40,45,50,54,57,60,63,65,67]},{"name":"CMC GEM","start":1791298800,"mm":[2.7,0.2,0.0,1.1,1.9,1.3,1.6,5.0,3.4,0.6,0.1,0.0,0.1,0.1,0.1,0.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.2,0.3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.7,1.7,1.7,0.0,0.0,0.0,0.0,0.0],"p":[95,95,95,95,96,95,94,92,86,73,56,43,39,38,38,37,36,33,26,17,10,7,6,5,4,4,5,8,12,14,11,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,10,14,14,12,10,8,7,5,3,1,0,0,0,0,0,0,0,0,0,0,6,13,19,20,19,19,23,30,33,31,27,24,23,23]},{"name":"UK Met Office","start":1791298800,"mm":[2.1,2.4,2.5,2.2,1.3,0.5,0.0,0.0,0.1,0.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1,0.1,0.1,0.1,0.1,0.1,0.0,0.0,0.0,0.0,0.0],"p":[100,100,100,89,67,61,50,33,22,11,11,6,6,11,11,22,6,0,0,6,0,0,6,22,17,33,28,28,33,17,6,6,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,11,17,28,22,17,17,6,0,0,0,0,0,0,0,0,0,0,0,6,6,6,6,22,17,39,56,61,33,17,17,22,6,6,6]},{"name":"JMA","start":1791298800,"mm":[3.4,3.4,3.4,0.5,0.5,0.5,0.5,0.5,0.5,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.3,0.3,0.3,0.3,0.3,0.3,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1,0.1,0.1,0.1,0.1,0.1,0.7,0.7,0.7,0.7,0.7,0.7,0.3,0.3],"p":null},{"name":"Météo-France ARPEGE/AROME","start":1791298800,"mm":[2.0,2.5,2.3,1.6,1.5,1.2,0.7,0.5,1.1,1.6,1.1,1.0,0.2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1,0.2,0.5,0.5,0.6,1.4,1.5,0.2,0.2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1,0.1,0.1,0.4,0.4,0.4,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.9,0.9,0.9,0.0,0.0],"p":null},{"name":"CMA GRAPES","start":1791298800,"mm":[2.3,2.3,2.3,1.7,1.7,1.7,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.9,0.9,0.9,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.5,0.5,0.5,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.9,1.9,1.9,1.2,1.2,1.2,0.0,0.0],"p":null},{"name":"MET Norway","start":1791298800,"mm":[0.9,1.9,4.5,2.2,0.3,0.7,0.3,0.3,0.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.2,0.0,0.1,0.2,0.2,0.2,0.2,0.2,0.3,0.5,0.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.5,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"p":null,"src":"metno"}],"om_fetched":"2026-10-06T11:37:58-03:00","metno_fetched":"2026-10-06T11:37:58-03:00"},"ponta-grossa":{"lat":-25.095,"lon":-50.162,"alt":954,"series":[{"name":"ECMWF IFS 0.25","start":1791298800,"mm":[2.3,2.3,2.3,3.0,3.0,3.0,0.1,0.1,0.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1,0.1,0.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.3,0.3,0.3,1.1,1.1,1.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.9,1.9,1.9,0.4,0.4,0.4,0.1,0.1,0.1,0.0,0.0],"p":[100,100,100,100,100,96,86,72,59,49,39,31,24,19,14,10,7,4,1,0,0,5,12,20,28,35,41,44,45,43,37,29,22,17,12,8,5,2,0,0,0,0,0,0,0,0,1,8,26,49,65,67,62,55,48,40,33,30,29,27,22,15,10,6,4,2,2,2,4,5,7,16,39,69,88,88,78,67,56,43,35,35,40]},{"name":"NOAA GFS","start":1791298800,"mm":[0.0,0.2,0.0,0.0,0.1,0.1,0.0,0.0,0.0,0.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.2,1.2,0.5,0.5,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1,2.4,21.2,2.5,0.7,0.6,0.0,0.6,1.0],"p":[100,100,100,100,99,97,93,87,77,59,37,19,10,6,3,2,2,3,3,2,3,6,10,16,25,35,45,54,62,65,59,47,35,23,11,3,1,2,3,4,6,6,4,0,0,6,15,23,27,30,35,45,57,61,49,30,16,15,20,23,22,20,19,20,22,23,23,23,23,23,23,23,22,21,23,30,39,45,43,37,35,43,56]},{"name":"DWD ICON","start":1791298800,"mm":[0.2,1.0,2.3,2.0,4.8,2.0,1.8,0.4,0.2,0.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1,0.1,0.0,0.0,0.0,0.0,8.2,0.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.8,1.8,1.8,0.0,0.0,0.0,1.1,1.1,1.1,1.5,1.5],"p":[95,95,98,100,98,98,93,90,83,63,48,35,30,20,10,3,0,0,0,0,0,0,3,0,8,10,5,5,3,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,11,18,26,34,40,40,43,45,44,40,35,30,24,20,16,11,6,3,1,3,9,20,33,46,57,65,69,70,70,69,68,68,70,72]},{"name":"CMC GEM","start":1791298800,"mm":[2.3,0.5,0.0,2.2,2.1,1.8,0.9,1.7,2.7,1.2,0.3,0.0,0.1,0.2,0.1,0.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.3,0.3,0.3,0.0,0.0,0.0,0.2,0.2],"p":[95,95,95,95,96,95,94,92,86,73,56,43,39,38,38,37,36,33,26,17,10,7,6,5,4,4,5,8,12,14,11,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,10,14,14,12,10,8,7,5,3,1,0,0,0,0,0,0,0,0,0,0,6,13,19,20,19,19,23,30,33,31,27,24,23,23]},{"name":"UK Met Office","start":1791298800,"mm":[1.6,2.0,2.8,3.5,1.5,0.7,1.3,1.1,0.7,0.2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.3,0.3,0.3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.4,0.4,0.4,3.8,3.8,3.8,0.0,0.0,0.0,0.0,0.0],"p":[100,100,100,94,83,61,56,39,22,28,11,17,11,17,22,11,11,6,0,0,0,0,0,0,17,22,28,17,11,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0,0,0,0,6,11,22,28,44,28,6,11,11,0,0,0,0,0,0,0,0,0,0,0,6,11,6,17,39,39,44,56,50,44,22,28,22,11,17,17]},{"name":"JMA","start":1791298800,"mm":[3.4,3.4,3.4,0.5,0.5,0.5,0.5,0.5,0.5,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.3,0.3,0.3,0.3,0.3,0.3,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1,0.1,0.1,0.1,0.1,0.1,0.7,0.7,0.7,0.7,0.7,0.7,0.3,0.3],"p":null},{"name":"Météo-France ARPEGE/AROME","start":1791298800,"mm":[2.6,2.0,2.1,4.5,2.6,0.7,0.3,1.0,2.4,1.0,0.1,0.4,0.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.2,0.5,0.6,0.6,1.8,1.3,0.4,0.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.2,0.2,0.2,0.2,0.2,0.2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1,0.1,0.1,0.6,0.6,0.6,2.5,2.5,2.5,0.0,0.0],"p":null},{"name":"CMA GRAPES","start":1791298800,"mm":[1.7,1.7,1.7,1.0,1.0,1.0,0.1,0.1,0.1,0.0,0.0,0.0,0.1,0.1,0.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.4,0.4,0.4,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.4,1.4,1.4,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.9,0.9,0.9,0.4,0.4,0.4,0.2,0.2],"p":null},{"name":"MET Norway","start":1791298800,"mm":[1.4,1.2,2.7,6.5,1.4,0.3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1,0.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.2,1.8,1.8,0.3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"p":null,"src":"metno"}],"om_fetched":"2026-10-06T11:38:12-03:00","metno_fetched":"2026-10-06T11:38:12-03:00"}}</script>
+<script id="cidades-data" type="application/json">[{"slug": "castro", "nome": "Castro", "uf": "PR", "label": "Castro-PR", "lat": -24.79, "lon": -50.01, "alt": 1000, "ibge": "4104907", "title": "Clima em Castro-PR — 06/10", "n": 13, "padrao": true}, {"slug": "ponta-grossa", "nome": "Ponta Grossa", "uf": "PR", "label": "Ponta Grossa-PR", "lat": -25.095, "lon": -50.162, "alt": 954, "ibge": "4119905", "title": "Clima em Ponta Grossa-PR — 06/10", "n": 13, "padrao": false}]</script>
+<script id="hourly-data" type="application/json">{"castro":{"lat":-24.79,"lon":-50.01,"alt":1000,"series":[{"name":"ECMWF IFS 0.25","start":1791313200,"mm":[0.7,0.7,0.1,0.1,0.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1,0.1,0.1,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.5,0.5,0.5,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1,0.1,0.1,1.7,1.7,1.7,0.2,0.2,0.2,0.0,0.0,0.0,0.0,0.0],"p":[100,98,91,80,69,57,44,33,24,17,12,8,6,4,1,0,0,5,14,24,37,51,61,65,65,61,49,33,20,15,14,12,8,3,0,0,0,0,0,0,0,0,0,4,22,45,61,63,57,51,45,39,33,29,27,24,20,16,12,7,3,0,0,0,2,5,10,20,42,70,88,88,78,67,57,46,37,33,32]},{"name":"NOAA GFS","start":1791313200,"mm":[0.3,0.3,0.2,0.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.7,0.5,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.2,3.8,2.1,3.1,1.7,0.5,0.1,0.4],"p":[99,97,94,90,81,63,41,23,13,7,3,2,2,3,2,2,3,8,14,23,34,48,58,65,69,68,60,48,35,22,9,0,0,3,6,6,4,3,1,0,0,5,12,19,27,35,42,50,58,58,45,24,10,8,12,16,16,16,16,17,18,19,22,25,26,24,21,19,20,23,26,29,33,35,34,31,32,40,52]},{"name":"DWD ICON","start":1791313200,"mm":[1.0,0.7,0.8,0.4,0.5,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1,0.0,0.0,0.0,0.0,3.8,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1,0.1,0.1,0.2,0.2,0.2,0.2,0.2,0.2,1.7,1.7],"p":[98,93,88,93,85,78,60,33,30,25,10,10,5,0,0,0,0,0,0,0,8,15,23,5,0,8,5,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,14,20,21,20,20,32,34,35,35,33,31,29,26,23,19,14,8,3,0,0,3,9,17,26,34,40,45,50,54,57,60,63,65,67]},{"name":"CMC GEM","start":1791313200,"mm":[1.9,1.3,1.6,5.0,3.4,0.6,0.1,0.0,0.1,0.1,0.1,0.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.2,0.3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.7,1.7,1.7,0.0,0.0,0.0,0.0,0.0],"p":[96,95,94,92,86,73,56,43,39,38,38,37,36,33,26,17,10,7,6,5,4,4,5,8,12,14,11,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,10,14,14,12,10,8,7,5,3,1,0,0,0,0,0,0,0,0,0,0,6,13,19,20,19,19,23,30,33,31,27,24,23,23]},{"name":"UK Met Office","start":1791313200,"mm":[1.3,0.5,0.0,0.0,0.1,0.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1,0.1,0.1,0.1,0.1,0.1,0.0,0.0,0.0,0.0,0.0],"p":[67,61,50,33,22,11,11,6,6,11,11,22,6,0,0,6,0,0,6,22,17,33,28,28,33,17,6,6,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,11,17,28,22,17,17,6,0,0,0,0,0,0,0,0,0,0,0,6,6,6,6,22,17,39,56,61,33,17,17,22,6,6,6]},{"name":"JMA","start":1791313200,"mm":[0.5,0.5,0.5,0.5,0.5,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.3,0.3,0.3,0.3,0.3,0.3,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1,0.1,0.1,0.1,0.1,0.1,0.7,0.7,0.7,0.7,0.7,0.7,0.3,0.3],"p":null},{"name":"Météo-France ARPEGE/AROME","start":1791313200,"mm":[1.5,1.2,0.7,0.5,1.1,1.6,1.1,1.0,0.2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1,0.2,0.5,0.5,0.6,1.4,1.5,0.2,0.2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1,0.1,0.1,0.4,0.4,0.4,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.9,0.9,0.9,0.0,0.0],"p":null},{"name":"CMA GRAPES","start":1791313200,"mm":[1.7,1.7,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.9,0.9,0.9,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.5,0.5,0.5,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.9,1.9,1.9,1.2,1.2,1.2,0.0,0.0],"p":null},{"name":"MET Norway","start":1791313200,"mm":[0.3,0.7,0.3,0.3,0.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.2,0.0,0.1,0.2,0.2,0.2,0.2,0.2,0.3,0.5,0.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.5,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"p":null,"src":"metno"}],"om_fetched":"2026-10-06T11:37:58-03:00","metno_fetched":"2026-10-06T11:37:58-03:00"},"ponta-grossa":{"lat":-25.095,"lon":-50.162,"alt":954,"series":[{"name":"ECMWF IFS 0.25","start":1791313200,"mm":[3.0,3.0,0.1,0.1,0.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1,0.1,0.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.3,0.3,0.3,1.1,1.1,1.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.9,1.9,1.9,0.4,0.4,0.4,0.1,0.1,0.1,0.0,0.0],"p":[100,96,86,72,59,49,39,31,24,19,14,10,7,4,1,0,0,5,12,20,28,35,41,44,45,43,37,29,22,17,12,8,5,2,0,0,0,0,0,0,0,0,1,8,26,49,65,67,62,55,48,40,33,30,29,27,22,15,10,6,4,2,2,2,4,5,7,16,39,69,88,88,78,67,56,43,35,35,40]},{"name":"NOAA GFS","start":1791313200,"mm":[0.1,0.1,0.0,0.0,0.0,0.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.2,1.2,0.5,0.5,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1,2.4,21.2,2.5,0.7,0.6,0.0,0.6,1.0],"p":[99,97,93,87,77,59,37,19,10,6,3,2,2,3,3,2,3,6,10,16,25,35,45,54,62,65,59,47,35,23,11,3,1,2,3,4,6,6,4,0,0,6,15,23,27,30,35,45,57,61,49,30,16,15,20,23,22,20,19,20,22,23,23,23,23,23,23,23,22,21,23,30,39,45,43,37,35,43,56]},{"name":"DWD ICON","start":1791313200,"mm":[4.8,2.0,1.8,0.4,0.2,0.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1,0.1,0.0,0.0,0.0,0.0,8.2,0.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.8,1.8,1.8,0.0,0.0,0.0,1.1,1.1,1.1,1.5,1.5],"p":[98,98,93,90,83,63,48,35,30,20,10,3,0,0,0,0,0,0,3,0,8,10,5,5,3,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,11,18,26,34,40,40,43,45,44,40,35,30,24,20,16,11,6,3,1,3,9,20,33,46,57,65,69,70,70,69,68,68,70,72]},{"name":"CMC GEM","start":1791313200,"mm":[2.1,1.8,0.9,1.7,2.7,1.2,0.3,0.0,0.1,0.2,0.1,0.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.3,0.3,0.3,0.0,0.0,0.0,0.2,0.2],"p":[96,95,94,92,86,73,56,43,39,38,38,37,36,33,26,17,10,7,6,5,4,4,5,8,12,14,11,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,10,14,14,12,10,8,7,5,3,1,0,0,0,0,0,0,0,0,0,0,6,13,19,20,19,19,23,30,33,31,27,24,23,23]},{"name":"UK Met Office","start":1791313200,"mm":[1.5,0.7,1.3,1.1,0.7,0.2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.3,0.3,0.3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.4,0.4,0.4,3.8,3.8,3.8,0.0,0.0,0.0,0.0,0.0],"p":[83,61,56,39,22,28,11,17,11,17,22,11,11,6,0,0,0,0,0,0,17,22,28,17,11,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0,0,0,0,6,11,22,28,44,28,6,11,11,0,0,0,0,0,0,0,0,0,0,0,6,11,6,17,39,39,44,56,50,44,22,28,22,11,17,17]},{"name":"JMA","start":1791313200,"mm":[0.5,0.5,0.5,0.5,0.5,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.3,0.3,0.3,0.3,0.3,0.3,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1,0.1,0.1,0.1,0.1,0.1,0.7,0.7,0.7,0.7,0.7,0.7,0.3,0.3],"p":null},{"name":"Météo-France ARPEGE/AROME","start":1791313200,"mm":[2.6,0.7,0.3,1.0,2.4,1.0,0.1,0.4,0.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.2,0.5,0.6,0.6,1.8,1.3,0.4,0.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.2,0.2,0.2,0.2,0.2,0.2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1,0.1,0.1,0.6,0.6,0.6,2.5,2.5,2.5,0.0,0.0],"p":null},{"name":"CMA GRAPES","start":1791313200,"mm":[1.0,1.0,0.1,0.1,0.1,0.0,0.0,0.0,0.1,0.1,0.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.4,0.4,0.4,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.4,1.4,1.4,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.9,0.9,0.9,0.4,0.4,0.4,0.2,0.2],"p":null},{"name":"MET Norway","start":1791313200,"mm":[1.4,0.3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.1,0.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.2,1.8,1.8,0.3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"p":null,"src":"metno"}],"om_fetched":"2026-10-06T11:38:12-03:00","metno_fetched":"2026-10-06T11:38:12-03:00"}}</script>
 <script>/* painel_app.js — embutido em painel.html por build_painel.py (sem bibliotecas externas).
    1) revelação ao rolar + contadores animados (como antes);
    2) busca de cidades: cidades pré-calculadas (consenso completo embutido na página) e
@@ -911,16 +931,17 @@ font-size:12.5px;line-height:1.45;color:#dbe6ff;box-shadow:0 12px 30px rgba(0,0,
   function renderLive(L){
     var days=L.days, T=days[0], isT=function(d){return d.date===L.todayISO;}, lab=function(d,short){return isT(d)?'Hoje':(short===false?WD_CAP[d.wd]:WD_SHORT[d.wd]);};
     var nModels=Object.keys(L.used).length, c=L.city, f1=function(v){return v.toFixed(1);};
-    var uf=c.cc==='BR'&&UF[c.admin1]?UF[c.admin1]:'';
-    var title=c.name+(uf?'-'+uf:'');
-    var sub=[c.admin1&&!uf?c.admin1:(uf?c.admin1:''),c.country,(L.elev!=null?'~'+num(Math.round(L.elev))+' m de altitude':'')].filter(Boolean).join(' · ');
+    var uf=c.cc==='BR'&&UF[c.admin1]?UF[c.admin1]:((c.uf||'')||'');
+    var title=c.label||(c.name+(uf?'-'+uf:''));
+    var sub=c.sub||[c.admin1&&!uf?c.admin1:(uf?c.admin1:''),c.country,(L.elev!=null?'~'+num(Math.round(L.elev))+' m de altitude':'')].filter(Boolean).join(' · ');
     var td=L.todayISO.split('-'), wd=wdOf(L.todayISO), dtxt=WD_FULL[wd]+', '+(+td[2])+' de '+MONTHS[+td[1]-1]+' de '+td[0];
-    var h=[];
+    var h=[], hslug=L.hourlySlug||'live', tag=L.tag||'ao vivo', note=L.note;
+    if(!note) note='<b>Consenso de '+nModels+' modelos (consulta ao vivo)</b>, calculado agora no seu navegador com dados do Open-Meteo. Sem fontes nacionais (INMET, Simepar, Climatempo) e sem alertas oficiais para esta cidade'+(c.cc==='BR'?' — os alertas do INMET aparecem só nas cidades pré-calculadas; em caso de risco, consulte o INMET e a Defesa Civil (199)':'')+'.';
     h.push('<header class="top reveal"><div class="brand"><div class="logo">'+icon(T.kind,'mini')+'</div><div><h1>Clima em '+E(title)+'</h1><p class="sub">'+E(sub)+'</p></div></div>'+
-      '<div class="when"><div class="date">'+E(dtxt.charAt(0).toUpperCase()+dtxt.slice(1))+'</div><div class="upd"><span class="live-dot"></span>Consulta ao vivo às <b>'+
+      '<div class="when"><div class="date">'+E(dtxt.charAt(0).toUpperCase()+dtxt.slice(1))+'</div><div class="upd"><span class="live-dot"></span>'+(L.updLab||'Consulta ao vivo')+' às <b>'+
       E(brt(L.at,{hour:'2-digit',minute:'2-digit'}))+'</b> (BRT) de '+E(brt(L.at,{day:'2-digit',month:'2-digit'}))+'</div></div></header>');
-    h.push('<div class="livenote reveal"><span class="livetag">ao vivo</span><b>Consenso de '+nModels+' modelos (consulta ao vivo)</b>, calculado agora no seu navegador com dados do Open-Meteo. '+
-      'Sem fontes nacionais (INMET, Simepar, Climatempo) e sem alertas oficiais para esta cidade'+(c.cc==='BR'?' — os alertas do INMET aparecem só nas cidades pré-calculadas; em caso de risco, consulte o INMET e a Defesa Civil (199)':'')+'.</div>');
+    if(L.alertsHtml) h.push(L.alertsHtml);
+    h.push('<div class="livenote reveal"><span class="livetag">'+E(tag)+'</span>'+note+'</div>');
     // hoje
     var chips=T.risks.map(function(r){return '<span class="chip">'+E(r)+'</span>';}).join('');
     h.push('<section class="today sky-'+T.kind+' reveal" aria-label="Previsão de hoje"><div class="sky-fx"><div class="streaks"></div><div class="flash"></div></div><div class="today-main">'+
@@ -935,7 +956,7 @@ font-size:12.5px;line-height:1.45;color:#dbe6ff;box-shadow:0 12px 30px rgba(0,0,
       '<div class="stat"><div class="k">Vento máximo</div><div class="v"><span class="count" data-to="'+T.wind_max_avg+'" data-nd="0">'+num(T.wind_max_avg)+'</span> <small>km/h</small></div><div class="n">média dos modelos (maior: '+num(T.wind_max)+' km/h)</div></div>'+
       '<div class="stat wide"><div class="k">Concordância dos modelos</div><div class="v">'+agreeMeter(T,true)+'</div><div class="n">'+T.n_sources+' modelos · σ máx. '+num(T.tmax_sd,1)+' °C · '+num(T.wet_fraction*100)+'% preveem chuva</div></div>'+
       '</div></section>');
-    h.push('<section class="hourly reveal" data-hourly="live" aria-label="Chuva hora a hora"><h2 class="sec">Chuva hora a hora <span class="sec-sub">próximas 48 h · horário de Brasília</span></h2><div class="hr-host"></div></section>');
+    h.push('<section class="hourly reveal" data-hourly="'+hslug+'" aria-label="Chuva hora a hora"><h2 class="sec">Chuva hora a hora <span class="sec-sub">próximas 48 h · horário de Brasília</span></h2><div class="hr-host"></div></section>');
     // cartões
     var cards=days.map(function(d,i){
       var badge='';
@@ -1007,6 +1028,53 @@ font-size:12.5px;line-height:1.45;color:#dbe6ff;box-shadow:0 12px 30px rgba(0,0,
   }
 
   /* ------------------------------------------------------------ rede */
+  function fetchDaily(coords){
+    var url='https://api.open-meteo.com/v1/forecast?latitude='+coords.lat+'&longitude='+coords.lon+(coords.alt!=null?'&elevation='+coords.alt:'')+
+      '&daily='+DAILY+'&models='+MODELS.map(function(m){return m[0];}).join(',')+'&timezone=auto&forecast_days=7';
+    return getJSON(url,20000);
+  }
+  function tryInmet(ibge){
+    // INMET não envia Access-Control-Allow-Origin — o fetch do navegador falha por CORS.
+    // Tentamos mesmo assim; em falha devolvemos {ok:false,cors:true}.
+    if(!ibge) return Promise.resolve({ok:false,reason:'sem IBGE'});
+    var base='https://apiprevmet3.inmet.gov.br';
+    return Promise.all([
+      getJSON(base+'/previsao/'+ibge,8000).catch(function(e){ return {_err:e}; }),
+      getJSON(base+'/avisos/ativos',8000).catch(function(e){ return {_err:e}; })
+    ]).then(function(pair){
+      var prev=pair[0], av=pair[1];
+      if(prev&&prev._err) return {ok:false,cors:!!(prev._err.net||prev._err.http||true), err:prev._err};
+      if(av&&av._err) return {ok:false,cors:true, err:av._err, prev:prev};
+      return {ok:true, prev:prev, avisos:av};
+    });
+  }
+  function todayISO_BRT(){
+    try{ return new Intl.DateTimeFormat('en-CA',{timeZone:'America/Sao_Paulo',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date()); }
+    catch(e){ return new Date(Date.now()-10800*1000).toISOString().slice(0,10); }
+  }
+  function alertsHtmlFromInmet(av, ibge, todayISO){
+    if(!av||!ibge) return '';
+    var list=[], SEV={"grande perigo":3,"perigo":2,"perigo potencial":1};
+    Object.keys(av).forEach(function(k){ (av[k]||[]).forEach(function(a){
+      if(String(a.geocodes||'').split(',').indexOf(String(ibge))<0) return;
+      var d0=(a.inicio||'').slice(0,10), d1=(a.fim||'').slice(0,10);
+      if(d0&&d1&&(todayISO<d0||todayISO>d1)) return;
+      list.push(a);
+    }); });
+    list.sort(function(a,b){ return (SEV[(b.severidade||'').toLowerCase()]||0)-(SEV[(a.severidade||'').toLowerCase()]||0); });
+    if(!list.length) return '';
+    return list.map(function(a){
+      var cor=a.aviso_cor||'#FFC400', riscos=(a.riscos||[]).join(' ');
+      if(typeof a.riscos==='string'){ try{ riscos=(JSON.parse(a.riscos.replace(/'/g,'"'))||[]).join(' '); }catch(e){ riscos=a.riscos; } }
+      var per=(a.inicio||'')+' até '+(a.fim||'');
+      try{ var s=a.inicio.replace(' ','T'), e=a.fim.replace(' ','T');
+        per=brt(new Date(s),{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})+' até '+brt(new Date(e),{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
+      }catch(x){}
+      return '<section class="alert reveal" style="--acor:'+E(cor)+'" role="alert"><div class="alert-body"><div class="alert-tag">Alerta oficial INMET · atualizado agora</div>'+
+        '<h2>'+E(a.descricao||'')+' <span class="sev">'+E(a.severidade||'')+'</span></h2>'+
+        '<p class="alert-per">Válido de <b>'+E(per)+'</b> (horário de Brasília)</p><p class="alert-risk">'+E(riscos)+'</p></div></section>';
+    }).join('');
+  }
   function getJSON(url,ms){
     var ctl=('AbortController' in window)?new AbortController():null, timer=setTimeout(function(){ if(ctl) ctl.abort(); },ms||15000);
     return fetch(url,ctl?{signal:ctl.signal}:{}).then(function(r){
@@ -1384,9 +1452,100 @@ font-size:12.5px;line-height:1.45;color:#dbe6ff;box-shadow:0 12px 30px rgba(0,0,
     if(sv&&sv.t==='pre'&&sv.slug!==DEFAULT&&CITIES.some(function(c){return c.slug===sv.slug;})) return selectPre(sv.slug,{nosave:true,keepURL:true});
     if(sv&&sv.t==='live'&&sv.g&&sv.g.latitude!=null) return selectLive(sv.g,{nosave:true,keepURL:true});
   }
+  /* ------------------------------------------------------------ Atualizar agora */
+  var BTN=document.getElementById('refresh'), RST=document.getElementById('rstatus');
+  var REF_MIN=60000, lastRefAt=0, refreshing=false;
+  var ORIG={};  // snapshot do HTML embutido das cidades pré-calculadas (para alertas INMET)
+  CITIES.forEach(function(c){ var sec=document.querySelector('.city[data-slug="'+c.slug+'"]'); if(sec) ORIG[c.slug]=sec.innerHTML; });
+  function setR(msg,cls,busy){
+    if(RST){ RST.textContent=msg||''; RST.className='rstatus'+(cls?' '+cls:''); }
+    if(BTN){ BTN.disabled=!!busy; BTN.classList.toggle('busy',!!busy); }
+  }
+  function fetchDailyAndHourly(coords){
+    return Promise.all([fetchDaily(coords), fetchHourly(coords)]);
+  }
+  function applyRefreshed(slug, cityMeta, j, hres, alertsHtml, noteExtra){
+    var C=consensus(j);
+    if(!C.days.length) throw new Error('Nenhum modelo retornou previsão');
+    var off=(j.utc_offset_seconds||0)*1000, todayISO=new Date(Date.now()+off).toISOString().slice(0,10);
+    var note='<b>Consenso de '+Object.keys(C.used).length+' modelos (atualizado agora)</b>, recalculado no seu navegador com dados do Open-Meteo.'+(noteExtra||'');
+    var R=renderLive({city:cityMeta,days:C.days,used:C.used,todayISO:todayISO,at:new Date(),
+      elev:cityMeta.alt!=null?cityMeta.alt:j.elevation,tz:j.timezone||'',lat:j.latitude,lon:j.longitude,
+      hourlySlug:slug, tag:'agora', updLab:'Atualizado', note:note, alertsHtml:alertsHtml||''});
+    var sec=document.querySelector('.city[data-slug="'+slug+'"]');
+    if(!sec) throw new Error('seção da cidade não encontrada');
+    sec.innerHTML=R.html; sec.setAttribute('data-title',R.title);
+    var emb=(HST[slug]&&HST[slug].emb)||(HEMB[slug]||null);
+    HST[slug]={coords:{lat:cityMeta.lat||cityMeta.latitude,lon:cityMeta.lon||cityMeta.longitude,alt:cityMeta.alt},emb:emb,live:hres,liveAt:Date.now(),tzOff:hres&&hres.off,rendered:false};
+    showSection(slug); document.title=R.title; observe(sec); renderHourly(slug,{});
+    return R;
+  }
+  function refreshNow(){
+    if(!BTN) return;
+    try{ close(); }catch(e){}
+    if(refreshing) return;
+    var ago=Date.now()-lastRefAt;
+    if(lastRefAt&&ago<REF_MIN){ setR('Aguarde '+Math.ceil((REF_MIN-ago)/1000)+' s antes de atualizar de novo.','warn'); return; }
+    var slug=current, my=++token;
+    refreshing=true; setR('Atualizando…','',true);
+    if(slug==='live'){
+      if(!lastLive){ refreshing=false; setR('Nenhuma cidade ao vivo para atualizar.','err'); return; }
+      var g=lastLive, coords={lat:g.latitude,lon:g.longitude,alt:g.elevation};
+      fetchDailyAndHourly(coords).then(function(pair){
+        if(my!==token) return;
+        var j=pair[0], hres=pair[1];
+        var C=consensus(j); if(!C.days.length) throw new Error('Nenhum modelo retornou previsão');
+        var off=(j.utc_offset_seconds||0)*1000, todayISO=new Date(Date.now()+off).toISOString().slice(0,10);
+        var R=renderLive({city:{name:g.name,admin1:g.admin1||'',country:g.country||'',cc:g.country_code||''},days:C.days,used:C.used,todayISO:todayISO,
+          at:new Date(),elev:g.elevation!=null?g.elevation:j.elevation,tz:j.timezone||'',lat:j.latitude,lon:j.longitude,
+          hourlySlug:'live', tag:'agora', updLab:'Atualizado'});
+        LIVE.innerHTML=R.html; LIVE.setAttribute('data-title',R.title);
+        HST.live={coords:coords,emb:null,live:hres,liveAt:Date.now(),tzOff:hres.off,rendered:false};
+        showSection('live'); document.title=R.title; renderHourly('live',{});
+        lastRefAt=Date.now(); refreshing=false;
+        setR('Atualizado às '+brt(new Date(),{hour:'2-digit',minute:'2-digit'})+' (BRT) — '+R.n+' modelos.','ok');
+      }).catch(function(e){
+        if(my!==token) return; refreshing=false;
+        setR(errMsg(e,'não foi possível atualizar — dados anteriores mantidos'),'err');
+      });
+      return;
+    }
+    var c=CITIES.filter(function(x){return x.slug===slug;})[0];
+    if(!c){ refreshing=false; setR('Cidade desconhecida.','err'); return; }
+    var coords={lat:c.lat,lon:c.lon,alt:c.alt};
+    var sec=document.querySelector('.city[data-slug="'+slug+'"]');
+    var keepAlerts=sec?[].slice.call(sec.querySelectorAll('.alert')).map(function(el){return el.outerHTML;}).join(''):'';
+    // tenta INMET (deve falhar por CORS); em paralelo com Open-Meteo
+    Promise.all([
+      fetchDailyAndHourly(coords),
+      tryInmet(c.ibge)
+    ]).then(function(all){
+      if(my!==token) return;
+      var j=all[0][0], hres=all[0][1], inm=all[1];
+      var alertsHtml=keepAlerts, noteExtra='';
+      if(inm&&inm.ok){
+        var fresh=alertsHtmlFromInmet(inm.avisos, c.ibge, todayISO_BRT());
+        if(fresh) alertsHtml=fresh;
+        noteExtra=' Previsão e alertas do INMET também foram consultados.';
+      } else {
+        noteExtra=' Fontes nacionais (INMET, Simepar, Climatempo) não puderam ser atualizadas no navegador'+(inm&&inm.cors?' (o INMET bloqueia CORS)':'')+' — alertas e dados oficiais embutidos na página foram mantidos.';
+      }
+      var R=applyRefreshed(slug,{name:c.nome,label:c.label,uf:c.uf,admin1:'Paraná',country:'Brasil',cc:'BR',lat:c.lat,lon:c.lon,alt:c.alt,
+        sub:(c.slug==='castro'?'Campos Gerais · Paraná · ~1.000 m de altitude':'Campos Gerais · Paraná · ~950 m de altitude')},
+        j,hres,alertsHtml,noteExtra);
+      lastRefAt=Date.now(); refreshing=false;
+      var msg='Atualizado às '+brt(new Date(),{hour:'2-digit',minute:'2-digit'})+' (BRT) — '+R.n+' modelos';
+      if(!(inm&&inm.ok)) msg+='; INMET mantido (embutido)';
+      setR(msg+(inm&&inm.ok?'':'')+(inm&&inm.ok?' + INMET':''), inm&&inm.ok?'ok':'warn');
+    }).catch(function(e){
+      if(my!==token) return; refreshing=false;
+      setR(errMsg(e,'não foi possível atualizar — dados anteriores mantidos'),'err');
+    });
+  }
+  if(BTN) BTN.addEventListener('click',refreshNow);
   ensureHourly(current);
   boot();
-  window.__clima={selectPre:selectPre,selectLive:selectLive,consensus:consensus};
+  window.__clima={selectPre:selectPre,selectLive:selectLive,consensus:consensus,refreshNow:refreshNow,clearRefreshData:function(){ lastRefAt=0; refreshing=false; setR(""); }};
 })();
 </script>
 </body>
