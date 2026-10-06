@@ -560,7 +560,7 @@ font-size:12.5px;line-height:1.45;color:#dbe6ff;box-shadow:0 12px 30px rgba(0,0,
       <p class="caveat">Ressalvas: MET Norway usa base ECMWF (não é totalmente independente); INMET não fornece milímetros nem probabilidade; wttr.in cobre só 3 dias; o número de fontes cai nos últimos dias do período. Alertas: INMET (fonte oficial). Previsões podem mudar — consulte a Defesa Civil (199) em emergências.</p>
     </div>
   </div>
-  <div class="foot-meta">Painel gerado automaticamente em 06/10/2026 às 16:25 (BRT) · dados de 06/10 11:37 (BRT) · período 06/10 a 12/10</div>
+  <div class="foot-meta">Painel gerado automaticamente em 06/10/2026 às 16:43 (BRT) · dados de 06/10 11:37 (BRT) · período 06/10 a 12/10</div>
 </footer>
 </section>
 <section class="city" data-slug="ponta-grossa" data-title="Clima em Ponta Grossa-PR — 06/10" aria-label="Previsão para Ponta Grossa-PR" hidden>
@@ -782,7 +782,7 @@ font-size:12.5px;line-height:1.45;color:#dbe6ff;box-shadow:0 12px 30px rgba(0,0,
       <p class="caveat">Ressalvas: MET Norway usa base ECMWF (não é totalmente independente); INMET não fornece milímetros nem probabilidade; wttr.in cobre só 3 dias; o número de fontes cai nos últimos dias do período. Alertas: INMET (fonte oficial). Previsões podem mudar — consulte a Defesa Civil (199) em emergências.</p>
     </div>
   </div>
-  <div class="foot-meta">Painel gerado automaticamente em 06/10/2026 às 16:25 (BRT) · dados de 06/10 11:38 (BRT) · período 06/10 a 12/10</div>
+  <div class="foot-meta">Painel gerado automaticamente em 06/10/2026 às 16:43 (BRT) · dados de 06/10 11:38 (BRT) · período 06/10 a 12/10</div>
 </footer>
 </section>
 <section class="city" data-slug="live" aria-label="Previsão consultada ao vivo" hidden></section>
@@ -943,26 +943,26 @@ font-size:12.5px;line-height:1.45;color:#dbe6ff;box-shadow:0 12px 30px rgba(0,0,
     if(L.alertsHtml) h.push(L.alertsHtml);
     h.push('<div class="livenote reveal"><span class="livetag">'+E(tag)+'</span>'+note+'</div>');
     // hoje
-    var chips=T.risks.map(function(r){return '<span class="chip">'+E(r)+'</span>';}).join('');
+    var chips=(T.risks||[]).map(function(r){return '<span class="chip">'+E(r)+'</span>';}).join('');
     h.push('<section class="today sky-'+T.kind+' reveal" aria-label="Previsão de hoje"><div class="sky-fx"><div class="streaks"></div><div class="flash"></div></div><div class="today-main">'+
       '<div class="today-label">'+(isT(T)?'Hoje':'Previsão')+' · '+WD_CAP[T.wd]+' '+dshort(T.date)+'</div><div class="today-hero"><div class="today-icon">'+icon(T.kind,'big')+'</div><div class="today-temps">'+
       '<div class="t-max"><span class="count" data-to="'+T.tmax_avg+'" data-nd="0">'+num(T.tmax_avg)+'</span><sup>°C</sup></div>'+
       '<div class="t-min">mín <b><span class="count" data-to="'+T.tmin_avg+'" data-nd="0">'+num(T.tmin_avg)+'</span>°</b></div>'+
-      '<div class="t-cond">'+E(T.cond)+'</div><div class="t-src">Média de '+T.n_sources+' modelos · máx. '+num(T.tmax_r[0])+'–'+num(T.tmax_r[1])+'° · mín. '+num(T.tmin_r[0])+'–'+num(T.tmin_r[1])+'°</div>'+
+      '<div class="t-cond">'+E(T.cond||'—')+'</div><div class="t-src">Média de '+(T.n_sources||0)+' modelos · máx. '+num(T.tmax_r&&T.tmax_r[0])+'–'+num(T.tmax_r&&T.tmax_r[1])+'° · mín. '+num(T.tmin_r&&T.tmin_r[0])+'–'+num(T.tmin_r&&T.tmin_r[1])+'°</div>'+
       '</div></div><div class="chips">'+chips+'</div></div><div class="today-stats">'+
-      '<div class="stat"><div class="k">Chuva prevista</div><div class="v"><span class="count" data-to="'+T.precip_avg+'" data-nd="1">'+num(T.precip_avg,1)+'</span> <small>mm</small></div><div class="n">faixa entre modelos: '+num(T.p_r[0],1)+'–'+num(T.p_r[1],1)+' mm</div></div>'+
-      '<div class="stat"><div class="k">Chance de chuva</div><div class="v"><span class="count" data-to="'+T.prob_avg+'" data-nd="0">'+num(T.prob_avg)+'</span><small>%</small></div><div class="bar"><i style="--w:'+Math.round(T.prob_avg||0)+'%"></i></div><div class="n">média de '+T.n_prob+' modelos</div></div>'+
-      '<div class="stat"><div class="k">Rajadas</div><div class="v"><small>até</small> <span class="count" data-to="'+T.gust_max+'" data-nd="0">'+num(T.gust_max)+'</span> <small>km/h</small></div><div class="n">maior valor entre os modelos</div></div>'+
-      '<div class="stat"><div class="k">Vento máximo</div><div class="v"><span class="count" data-to="'+T.wind_max_avg+'" data-nd="0">'+num(T.wind_max_avg)+'</span> <small>km/h</small></div><div class="n">média dos modelos (maior: '+num(T.wind_max)+' km/h)</div></div>'+
-      '<div class="stat wide"><div class="k">Concordância dos modelos</div><div class="v">'+agreeMeter(T,true)+'</div><div class="n">'+T.n_sources+' modelos · σ máx. '+num(T.tmax_sd,1)+' °C · '+num(T.wet_fraction*100)+'% preveem chuva</div></div>'+
+      '<div class="stat"><div class="k">Chuva prevista</div><div class="v"><span class="count" data-to="'+(T.precip_avg!=null?T.precip_avg:'')+'" data-nd="1">'+num(T.precip_avg,1)+'</span> <small>mm</small></div><div class="n">faixa entre modelos: '+num(T.p_r&&T.p_r[0],1)+'–'+num(T.p_r&&T.p_r[1],1)+' mm</div></div>'+
+      '<div class="stat"><div class="k">Chance de chuva</div><div class="v"><span class="count" data-to="'+(T.prob_avg!=null?T.prob_avg:'')+'" data-nd="0">'+num(T.prob_avg)+'</span><small>%</small></div><div class="bar"><i style="--w:'+Math.round(T.prob_avg||0)+'%"></i></div><div class="n">média de '+(T.n_prob||0)+' modelos</div></div>'+
+      '<div class="stat"><div class="k">Rajadas</div><div class="v"><small>até</small> <span class="count" data-to="'+(T.gust_max!=null?T.gust_max:'')+'" data-nd="0">'+num(T.gust_max)+'</span> <small>km/h</small></div><div class="n">maior valor entre os modelos</div></div>'+
+      '<div class="stat"><div class="k">Vento máximo</div><div class="v"><span class="count" data-to="'+(T.wind_max_avg!=null?T.wind_max_avg:'')+'" data-nd="0">'+num(T.wind_max_avg)+'</span> <small>km/h</small></div><div class="n">média dos modelos (maior: '+num(T.wind_max)+' km/h)</div></div>'+
+      '<div class="stat wide"><div class="k">Concordância dos modelos</div><div class="v">'+agreeMeter(T,true)+'</div><div class="n">'+(T.n_sources||0)+' modelos · σ máx. '+num(T.tmax_sd,1)+' °C · '+num((T.wet_fraction||0)*100)+'% preveem chuva</div></div>'+
       '</div></section>');
     h.push('<section class="hourly reveal" data-hourly="'+hslug+'" aria-label="Chuva hora a hora"><h2 class="sec">Chuva hora a hora <span class="sec-sub">próximas 48 h · horário de Brasília</span></h2><div class="hr-host"></div></section>');
     // cartões
     var cards=days.map(function(d,i){
-      var badge='';
-      if(d.risks.some(function(r){return r.indexOf('trovoadas')===0;})) badge='<span class="dbadge">trovoadas</span>';
-      else if(d.risks.some(function(r){return r.indexOf('chuva forte')===0;})) badge='<span class="dbadge">chuva forte</span>';
-      var extra=d.risks.filter(function(r){return /^(rajadas|calor|geada)/.test(r);}).map(function(r){return '<span class="dbadge soft">'+E(r)+'</span>';}).join('');
+      var risks=d.risks||[], badge='';
+      if(risks.some(function(r){return r.indexOf('trovoadas')===0;})) badge='<span class="dbadge">trovoadas</span>';
+      else if(risks.some(function(r){return r.indexOf('chuva forte')===0;})) badge='<span class="dbadge">chuva forte</span>';
+      var extra=risks.filter(function(r){return /^(rajadas|calor|geada)/.test(r);}).map(function(r){return '<span class="dbadge soft">'+E(r)+'</span>';}).join('');
       return '<article class="day'+(isT(d)?' is-today':'')+'" style="--d:'+i+'"><div class="d-head"><span class="d-wd">'+lab(d)+'</span><span class="d-dt">'+dshort(d.date)+'</span></div>'+
         '<div class="d-icon">'+icon(d.kind)+'</div><div class="d-cond">'+E(d.cond)+'</div><div class="d-temp"><span class="hi">'+num(d.tmax_avg)+'°</span><span class="lo">'+num(d.tmin_avg)+'°</span></div>'+
         '<div class="d-rain"><svg viewBox="0 0 10 14" class="dropico" aria-hidden="true"><path d="M5 0C5 0 0 6.5 0 9.2A5 5 0 0 0 10 9.2C10 6.5 5 0 5 0Z"/></svg><b>'+num(d.precip_avg,1)+' mm</b><span class="pp">'+num(d.prob_avg)+'%</span></div>'+
@@ -1080,7 +1080,8 @@ font-size:12.5px;line-height:1.45;color:#dbe6ff;box-shadow:0 12px 30px rgba(0,0,
       try{ var s=a.inicio.replace(' ','T'), e=a.fim.replace(' ','T');
         per=brt(new Date(s),{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})+' até '+brt(new Date(e),{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
       }catch(x){}
-      return '<section class="alert reveal" style="--acor:'+E(cor)+'" role="alert"><div class="alert-body"><div class="alert-tag">Alerta oficial INMET · atualizado agora</div>'+
+      var WARN='<svg class="warn-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5 1.5 21h21L12 2.5Z" fill="currentColor"/><path d="M12 9v5.5" stroke="#1a1400" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="17.5" r="1.2" fill="#1a1400"/></svg>';
+      return '<section class="alert reveal in" style="--acor:'+E(cor)+'" role="alert"><div class="alert-ico">'+WARN+'<span class="ring"></span><span class="ring r2"></span></div><div class="alert-body"><div class="alert-tag">Alerta oficial INMET · atualizado agora</div>'+
         '<h2>'+E(a.descricao||'')+' <span class="sev">'+E(a.severidade||'')+'</span></h2>'+
         '<p class="alert-per">Válido de <b>'+E(per)+'</b> (horário de Brasília)</p><p class="alert-risk">'+E(riscos)+'</p></div></section>';
     }).join('');
@@ -1471,22 +1472,205 @@ font-size:12.5px;line-height:1.45;color:#dbe6ff;box-shadow:0 12px 30px rgba(0,0,
     if(RST){ RST.textContent=msg||''; RST.className='rstatus'+(cls?' '+cls:''); }
     if(BTN){ BTN.disabled=!!busy; BTN.classList.toggle('busy',!!busy); }
   }
+  function setCount(span, val, nd){
+    if(!span || val==null || val==='' || (typeof val==='number' && isNaN(val))) return false;
+    nd = nd||0;
+    span.setAttribute('data-to', val);
+    var final = num(val, nd);
+    span.setAttribute('data-final', final);
+    span.textContent = final;
+    return true;
+  }
+  function richerCond(prev, live){
+    // Mantém condição anterior se ela tinha trovoadas e o OM vivo não — não inventa, só não apaga o bom.
+    if(!live) return prev||'';
+    if(!prev) return live;
+    var ps=/trovoad|tempestad/i.test(prev), ls=/trovoad|tempestad/i.test(live);
+    if(ps && !ls) return prev;
+    return live;
+  }
+  function upsertLiveNote(sec, html){
+    var ln=sec.querySelector('.livenote');
+    if(!ln){
+      ln=document.createElement('div');
+      ln.className='livenote reveal in';
+      var anchor=sec.querySelector('.alert:last-of-type')||sec.querySelector('header.top');
+      if(anchor) anchor.insertAdjacentElement('afterend', ln);
+      else sec.insertAdjacentElement('afterbegin', ln);
+    }
+    ln.innerHTML=html;
+    ln.classList.add('in');
+    return ln;
+  }
+  function rebuildChartsIn(sec, days, todayISO){
+    if(!days || !days.length) return;
+    var isT=function(d){return d.date===todayISO;}, lab=function(d){return isT(d)?'Hoje':WD_SHORT[d.wd];};
+    var f1=function(v){return v.toFixed(1);};
+    var n=days.length, W=560,H=320,Lm=40,Rm=14,Tm=30,B=50, xs=days.map(function(_,i){return Lm+(W-Lm-Rm)*(i+.5)/n;});
+    var vals=[]; days.forEach(function(d){ var a=d.tmin_r||[],b=d.tmax_r||[];
+      [a[0],a[1],b[0],b[1],d.tmin_avg,d.tmax_avg].forEach(function(v){if(v!=null&&!isNaN(v)) vals.push(v);});});
+    if(!vals.length) return;
+    var lo=Math.floor((mn(vals)-2)/5)*5, hi=Math.ceil((mx(vals)+2)/5)*5, y=function(v){return Tm+(H-Tm-B)*(hi-v)/(hi-lo);};
+    var g=['<svg class="chart tchart" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Temperaturas mínima e máxima médias por dia">'];
+    for(var t=lo;t<=hi;t+=5) g.push('<line class="grid" x1="'+Lm+'" x2="'+(W-Rm)+'" y1="'+f1(y(t))+'" y2="'+f1(y(t))+'"/><text class="ax" x="'+(Lm-8)+'" y="'+f1(y(t)+4)+'" text-anchor="end">'+t+'°</text>');
+    function band(k){ var top=[],bot=[]; days.forEach(function(d,i){ var r=d[k]||[]; if(r[1]!=null) top.push([xs[i],y(r[1])]); if(r[0]!=null) bot.push([xs[i],y(r[0])]); });
+      return top.concat(bot.reverse()).map(function(p){return f1(p[0])+','+f1(p[1]);}).join(' '); }
+    g.push('<polygon class="band band-max" points="'+band('tmax_r')+'"/><polygon class="band band-min" points="'+band('tmin_r')+'"/>');
+    [['tmax_avg','lmax','gTmax',-14],['tmin_avg','lmin','gTmin',24]].forEach(function(s){
+      var pts=[]; days.forEach(function(d,i){ if(d[s[0]]!=null) pts.push([xs[i],y(d[s[0]])]); });
+      if(pts.length) g.push('<path class="line draw '+s[1]+'" d="'+smooth(pts)+'" pathLength="1" stroke="url(#'+s[2]+')"/>');
+      days.forEach(function(d,i){ if(d[s[0]]==null) return;
+        g.push('<g class="pt" style="--i:'+i+'"><circle class="dot '+s[1]+'" cx="'+f1(xs[i])+'" cy="'+f1(y(d[s[0]]))+'" r="5"/><text class="val '+s[1]+'" x="'+f1(xs[i])+'" y="'+f1(y(d[s[0]])+s[3])+'" text-anchor="middle">'+num(d[s[0]])+'°</text></g>'); });
+    });
+    days.forEach(function(d,i){ g.push('<text class="xl" x="'+f1(xs[i])+'" y="'+(H-26)+'" text-anchor="middle">'+lab(d)+'</text><text class="xl2" x="'+f1(xs[i])+'" y="'+(H-10)+'" text-anchor="middle">'+dshort(d.date)+'</text>'); });
+    g.push('</svg><div class="legend"><span><i class="lg lmax"></i>Máxima média</span><span><i class="lg lmin"></i>Mínima média</span><span><i class="lg band"></i>Faixa entre os modelos</span></div>');
+    var tchart=g.join('');
+    B=70; var slot=(W-Lm-Rm)/n; xs=days.map(function(_,i){return Lm+slot*(i+.5);});
+    var vmax=Math.max.apply(null,days.map(function(d){return (d.p_r&&d.p_r[1])||0;}).concat(days.map(function(d){return d.precip_avg||0;})).concat([5]));
+    var step=vmax<=60?10:20, top=Math.ceil(vmax/step)*step, yr=function(v){return Tm+(H-Tm-B)*(top-v)/top;}, bw=Math.min(40,slot*.46);
+    g=['<svg class="chart rchart" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Chuva média prevista por dia (mm) e probabilidade">'];
+    for(t=0;t<=top;t+=step) g.push('<line class="grid" x1="'+Lm+'" x2="'+(W-Rm)+'" y1="'+f1(yr(t))+'" y2="'+f1(yr(t))+'"/><text class="ax" x="'+(Lm-8)+'" y="'+f1(yr(t)+4)+'" text-anchor="end">'+t+'</text>');
+    g.push('<text class="ax" x="'+(Lm-8)+'" y="'+(Tm-12)+'" text-anchor="end">mm</text>');
+    days.forEach(function(d,i){
+      var p=d.precip_avg||0, plo=d.p_r&&d.p_r[0], phi=d.p_r&&d.p_r[1], x=xs[i];
+      g.push('<g class="rbar" style="--i:'+i+'"><rect class="bar-r" x="'+f1(x-bw/2)+'" y="'+f1(yr(p))+'" width="'+f1(bw)+'" height="'+f1(Math.max(yr(0)-yr(p),0))+'" rx="6" fill="url(#'+(p>=20?'gBarHi':'gBar')+')"/>');
+      if(plo!=null&&phi!=null) g.push('<g class="whisk"><line x1="'+f1(x)+'" x2="'+f1(x)+'" y1="'+f1(yr(phi))+'" y2="'+f1(yr(plo))+'"/><line x1="'+f1(x-7)+'" x2="'+f1(x+7)+'" y1="'+f1(yr(phi))+'" y2="'+f1(yr(phi))+'"/><line x1="'+f1(x-7)+'" x2="'+f1(x+7)+'" y1="'+f1(yr(plo))+'" y2="'+f1(yr(plo))+'"/></g>');
+      g.push(!(phi!=null&&yr(phi)<yr(p)-4)?'<text class="val vr" x="'+f1(x)+'" y="'+f1(yr(p)-8)+'" text-anchor="middle">'+num(p,1)+'</text>'
+                                           :'<text class="val vr" x="'+f1(x+bw/2+4)+'" y="'+f1(yr(p)+4)+'" text-anchor="start">'+num(p,1)+'</text>');
+      g.push('</g><text class="xl" x="'+f1(x)+'" y="'+(H-46)+'" text-anchor="middle">'+lab(d)+'</text><text class="xl2" x="'+f1(x)+'" y="'+(H-31)+'" text-anchor="middle">'+dshort(d.date)+'</text>'+
+             '<text class="prob" x="'+f1(x)+'" y="'+(H-10)+'" text-anchor="middle">'+num(d.prob_avg)+'%</text>');
+    });
+    g.push('</svg><div class="legend"><span><i class="lg bar"></i>Chuva média (mm)</span><span><i class="lg whisk"></i>Menor–maior valor entre modelos</span><span><i class="lg probt">%</i>Chance de chuva (média)</span></div>');
+    var host=sec.querySelector('.charts');
+    if(!host) return;
+    var panels=host.querySelectorAll('.panel');
+    if(panels.length>=2){
+      var h3n0=panels[0].querySelector('.h3n'), h3n1=panels[1].querySelector('.h3n');
+      panels[0].innerHTML='<h3>Temperatura (°C)</h3><p class="h3n">'+(h3n0?h3n0.textContent:'Mínima e máxima médias do consenso, com a faixa entre os modelos')+'</p>'+tchart;
+      panels[1].innerHTML='<h3>Chuva prevista (mm)</h3><p class="h3n">'+(h3n1?h3n1.textContent:'Volume médio por dia, com o menor e o maior valor entre os modelos')+'</p>'+g.join('');
+    }
+  }
+  function patchPrecomputed(sec, C, opts){
+    // Mescla consenso OM vivo no HTML embutido: não apaga alertas, chips INMET, rodapé com 13 fontes.
+    var days=C.days, T=days[0], nModels=Object.keys(C.used).length, at=opts.at||new Date();
+    var todayISO=opts.todayISO||todayISO_BRT();
+    var upd=sec.querySelector('.upd');
+    if(upd) upd.innerHTML='<span class="live-dot"></span>Atualizado às <b>'+E(brt(at,{hour:'2-digit',minute:'2-digit'}))+'</b> (BRT) de '+E(brt(at,{day:'2-digit',month:'2-digit'}));
+    upsertLiveNote(sec, '<span class="livetag">agora</span><b>Modelos Open-Meteo atualizados agora ('+nModels+')</b>'+(opts.noteExtra||'')+
+      ' Números dos modelos foram recalculados no navegador; alertas e fontes nacionais do consenso embutido foram mantidos.');
+
+    var today=sec.querySelector('.today');
+    if(today && T){
+      var prevCond=(today.querySelector('.t-cond')&&today.querySelector('.t-cond').textContent)||'';
+      var newCond=richerCond(prevCond, T.cond);
+      var keepStorm=/trovoad|tempestad/i.test(prevCond) && !/trovoad|tempestad/i.test(T.cond||'');
+      if(!keepStorm && T.kind){
+        today.className=today.className.replace(/sky-\w+/g,'sky-'+T.kind);
+        var ic=today.querySelector('.today-icon'); if(ic) ic.innerHTML=icon(T.kind,'big');
+      }
+      var tc=today.querySelector('.t-cond'); if(tc && newCond) tc.textContent=newCond;
+      setCount(today.querySelector('.t-max .count'), T.tmax_avg, 0);
+      setCount(today.querySelector('.t-min .count'), T.tmin_avg, 0);
+      var tsrc=today.querySelector('.t-src');
+      if(tsrc && T.tmax_r && T.tmin_r){
+        tsrc.textContent='Open-Meteo agora ('+T.n_sources+' modelos) · máx. '+num(T.tmax_r[0])+'–'+num(T.tmax_r[1])+'° · mín. '+num(T.tmin_r[0])+'–'+num(T.tmin_r[1])+'° · fontes nacionais no rodapé';
+      }
+      [].slice.call(today.querySelectorAll('.stat')).forEach(function(st){
+        var k=((st.querySelector('.k')&&st.querySelector('.k').textContent)||'').trim();
+        var c=st.querySelector('.count'), n=st.querySelector('.n');
+        if(k.indexOf('Chuva prevista')===0){
+          setCount(c, T.precip_avg, 1);
+          if(n && T.p_r) n.textContent='faixa OM: '+num(T.p_r[0],1)+'–'+num(T.p_r[1],1)+' mm';
+        } else if(k.indexOf('Chance')===0){
+          setCount(c, T.prob_avg, 0);
+          var bar=st.querySelector('.bar i'); if(bar && T.prob_avg!=null) bar.style.setProperty('--w', Math.round(T.prob_avg)+'%');
+          if(n && T.n_prob!=null) n.textContent='média de '+T.n_prob+' modelos OM';
+        } else if(k.indexOf('Rajadas')===0){
+          setCount(c, T.gust_max, 0);
+        } else if(k.indexOf('Vento')===0){
+          setCount(c, T.wind_max_avg, 0);
+          if(n && T.wind_max!=null) n.textContent='média OM (maior: '+num(T.wind_max)+' km/h)';
+        } else if(k.indexOf('Concordância')===0){
+          var v=st.querySelector('.v'); if(v) v.innerHTML=agreeMeter(T,true);
+          if(n) n.textContent=T.n_sources+' modelos OM · σ máx. '+num(T.tmax_sd,1)+' °C · '+num((T.wet_fraction||0)*100)+'% preveem chuva';
+        }
+      });
+      // chips: nunca remove ALERTA INMET / existentes; só acrescenta risco forte do OM se faltar
+      var chips=today.querySelector('.chips');
+      if(chips && T.risks){
+        var have=chips.textContent;
+        T.risks.forEach(function(r){
+          if(/ALERTA/i.test(r)) return;
+          if(have.indexOf(r)>=0) return;
+          if(/trovoad/i.test(r) && /trovoad|ALERTA/i.test(have)) return;
+          var span=document.createElement('span'); span.className='chip'; span.textContent=r; chips.appendChild(span);
+        });
+      }
+    }
+
+    var byDate={}; days.forEach(function(d){ byDate[dshort(d.date)]=d; byDate[d.date]=d; });
+    [].slice.call(sec.querySelectorAll('article.day')).forEach(function(art){
+      var dt=((art.querySelector('.d-dt')&&art.querySelector('.d-dt').textContent)||'').trim();
+      var d=byDate[dt]; if(!d) return; // dia sem dado novo: mantém o embutido
+      var hi=art.querySelector('.hi'), lo=art.querySelector('.lo');
+      if(hi && d.tmax_avg!=null) hi.textContent=num(d.tmax_avg)+'°';
+      if(lo && d.tmin_avg!=null) lo.textContent=num(d.tmin_avg)+'°';
+      var prevC=((art.querySelector('.d-cond')&&art.querySelector('.d-cond').textContent)||'');
+      var nc=richerCond(prevC, d.cond);
+      var dc=art.querySelector('.d-cond'); if(dc && nc) dc.textContent=nc;
+      var keepStorm=/trovoad|tempestad/i.test(prevC) && !/trovoad|tempestad/i.test(d.cond||'');
+      if(!keepStorm && d.kind){ var ic=art.querySelector('.d-icon'); if(ic) ic.innerHTML=icon(d.kind); }
+      var rain=art.querySelector('.d-rain b'); if(rain && d.precip_avg!=null) rain.textContent=num(d.precip_avg,1)+' mm';
+      var pp=art.querySelector('.d-rain .pp'); if(pp && d.prob_avg!=null) pp.textContent=num(d.prob_avg)+'%';
+      var bar=art.querySelector('.bar.sm i')||art.querySelector('.bar i'); if(bar && d.prob_avg!=null) bar.style.setProperty('--w', Math.round(d.prob_avg)+'%');
+      var gust=art.querySelector('.d-gust'); if(gust && d.gust_max!=null) gust.textContent='rajadas até '+num(d.gust_max)+' km/h';
+      var ag=art.querySelector('.d-agree'); if(ag) ag.innerHTML=agreeMeter(d);
+      // badges de alerta INMET embutidos: mantidos
+    });
+
+    rebuildChartsIn(sec, days, todayISO);
+
+    var agList=sec.querySelector('.ag-list');
+    if(agList){
+      [].slice.call(agList.querySelectorAll('.ag-row')).forEach(function(row){
+        var dtSpan=row.querySelector('.ag-day span');
+        var dt=dtSpan?dtSpan.textContent.trim():'';
+        var d=byDate[dt]; if(!d) return;
+        var meter=row.querySelector('.ag-meter'); if(meter) meter.innerHTML=agreeMeter(d);
+        var det=row.querySelector('.ag-det');
+        if(det){
+          det.innerHTML='<span title="Desvio-padrão da temperatura máxima entre os modelos">σ máx. <b>'+num(d.tmax_sd,1)+' °C</b></span>'+
+            '<span class="ag-wet" title="Parcela dos modelos que preveem ao menos 1 mm"><span>chuva ≥ 1 mm: <b>'+num((d.wet_fraction||0)*100)+'%</b></span><span class="bar sm"><i style="--w:'+Math.round((d.wet_fraction||0)*100)+'%"></i></span></span>'+
+            '<span title="Coeficiente de variação do volume de chuva">CV chuva <b>'+num(d.precip_cv,2)+'</b></span><span><b>'+d.n_sources+'</b> modelos OM</span>';
+        }
+      });
+    }
+
+    // rodapé: intocado (lista das 13 fontes)
+    if(today) countUp(today);
+    return {n:nModels, label:(sec.querySelector('h1')&&sec.querySelector('h1').textContent)||'', title:sec.getAttribute('data-title')||document.title};
+  }
+  function revealAlerts(host){
+    if(!host) return;
+    [].slice.call(host.querySelectorAll('.alert')).forEach(function(el){
+      el.classList.add('reveal','in'); show(el);
+    });
+  }
   function applyRefreshed(slug, cityMeta, j, hres, alertsHtml, noteExtra){
     var C=consensus(j);
     if(!C.days.length) throw new Error('Nenhum modelo retornou previsão');
     var off=(j.utc_offset_seconds||0)*1000, todayISO=new Date(Date.now()+off).toISOString().slice(0,10);
-    var note='<b>Consenso de '+Object.keys(C.used).length+' modelos (atualizado agora)</b>, recalculado no seu navegador com dados do Open-Meteo.'+(noteExtra||'');
-    var R=renderLive({city:cityMeta,days:C.days,used:C.used,todayISO:todayISO,at:new Date(),
-      elev:cityMeta.alt!=null?cityMeta.alt:j.elevation,tz:j.timezone||'',lat:j.latitude,lon:j.longitude,
-      hourlySlug:slug, tag:'agora', updLab:'Atualizado', note:note, alertsHtml:alertsHtml||''});
     var sec=document.querySelector('.city[data-slug="'+slug+'"]');
     if(!sec) throw new Error('seção da cidade não encontrada');
-    sec.innerHTML=R.html; sec.setAttribute('data-title',R.title);
+    // Pré-calculada: mescla no DOM existente (nunca substitui por renderLive de 7 modelos).
+    var R=patchPrecomputed(sec, C, {at:new Date(), todayISO:todayISO, noteExtra:noteExtra||''});
     var emb=(HST[slug]&&HST[slug].emb)||(HEMB[slug]||null);
     var prev=HST[slug]||{};
     HST[slug]={coords:{lat:cityMeta.lat||cityMeta.latitude,lon:cityMeta.lon||cityMeta.longitude,alt:cityMeta.alt},emb:emb,
       live:hres||prev.live,liveAt:Date.now(),tzOff:(hres&&hres.off)!=null?hres.off:prev.tzOff,rendered:false};
-    showSection(slug); document.title=R.title; observe(sec); renderHourly(slug,{});
+    showSection(slug); renderHourly(slug,{});
+    // Garante que alertas embutidos continuam visíveis após o patch
+    revealAlerts(sec);
     return R;
   }
   function refreshNow(){
@@ -1501,6 +1685,11 @@ font-size:12.5px;line-height:1.45;color:#dbe6ff;box-shadow:0 12px 30px rgba(0,0,
     function finishOk(msg,cls){ lastRefAt=Date.now(); refreshing=false; setR(msg,cls||'ok'); }
     function finishErr(e){ refreshing=false; setR(errMsg(e,'não foi possível atualizar — dados anteriores mantidos'),'err'); }
     function hhmm(){ return brt(new Date(),{hour:'2-digit',minute:'2-digit'}); }
+    function setNoteDone(host, n, extra){
+      if(!host) return;
+      upsertLiveNote(host, '<span class="livetag">agora</span><b>Modelos Open-Meteo atualizados agora ('+n+')</b>. '+
+        (extra||'Alertas e fontes nacionais do consenso embutido foram mantidos.'));
+    }
 
     if(slug==='live'){
       if(!lastLive){ refreshing=false; setR('Nenhuma cidade ao vivo para atualizar.','err'); return; }
@@ -1517,7 +1706,7 @@ font-size:12.5px;line-height:1.45;color:#dbe6ff;box-shadow:0 12px 30px rgba(0,0,
         var prevLive=HST.live&&HST.live.live;
         HST.live={coords:coords,emb:null,live:hres||prevLive,liveAt:Date.now(),tzOff:(hres&&hres.off)||(HST.live&&HST.live.tzOff),rendered:false,
           err:hres?null:(res.hourlyErr&&res.hourlyErr.message)};
-        showSection('live'); document.title=R.title; renderHourly('live',{});
+        showSection('live'); document.title=R.title; observe(LIVE); renderHourly('live',{});
         var msg='Atualizado às '+hhmm()+' (BRT) — '+R.n+' modelos';
         if(!hres) msg+=' · chuva hora a hora anterior mantida';
         finishOk(msg,'ok');
@@ -1528,44 +1717,41 @@ font-size:12.5px;line-height:1.45;color:#dbe6ff;box-shadow:0 12px 30px rgba(0,0,
     var c=CITIES.filter(function(x){return x.slug===slug;})[0];
     if(!c){ refreshing=false; setR('Cidade desconhecida.','err'); return; }
     var coords={lat:c.lat,lon:c.lon,alt:c.alt};
-    var sec=document.querySelector('.city[data-slug="'+slug+'"]');
-    var keepAlerts=sec?[].slice.call(sec.querySelectorAll('.alert')).map(function(el){return el.outerHTML;}).join(''):'';
     var cityMeta={name:c.nome,label:c.label,uf:c.uf,admin1:'Paraná',country:'Brasil',cc:'BR',lat:c.lat,lon:c.lon,alt:c.alt,
       sub:(c.slug==='castro'?'Campos Gerais · Paraná · ~1.000 m de altitude':'Campos Gerais · Paraná · ~950 m de altitude')};
 
-    // 1) Open-Meteo primeiro (não espera INMET). 2) INMET em seguida, opcional, sem derrubar o resultado.
+    // 1) Open-Meteo primeiro. 2) INMET opcional. Nunca substitui a seção pré-calculada por renderLive.
     fetchDailyAndHourly(coords).then(function(res){
       if(my!==token) return;
       var j=res.daily, hres=res.hourly;
-      var noteExtra=' Alertas oficiais embutidos na página foram mantidos; consultando INMET…';
-      var R=applyRefreshed(slug,cityMeta,j,hres||(HST[slug]&&HST[slug].live),keepAlerts,noteExtra);
-      if(!hres&&HST[slug]){ /* applyRefreshed already set live; keep previous if hourly failed */ }
+      var noteExtra=' Consultando INMET…';
+      var R=applyRefreshed(slug,cityMeta,j,hres||(HST[slug]&&HST[slug].live),null,noteExtra);
       var base='Atualizado às '+hhmm()+' (BRT) — '+R.n+' modelos';
       if(!hres) base+=' · chuva hora a hora anterior mantida';
       setR(base+' · consultando INMET…','warn');
-      // INMET opcional (6 s); sucesso parcial já está na tela
       return tryInmet(c.ibge).then(function(inm){
         if(my!==token) return;
+        var host=document.querySelector('.city[data-slug="'+slug+'"]');
         if(inm&&inm.ok){
           var fresh=alertsHtmlFromInmet(inm.avisos,c.ibge,todayISO_BRT());
-          if(fresh){
-            var host=document.querySelector('.city[data-slug="'+slug+'"]');
-            if(host){
-              var oldA=host.querySelectorAll('.alert'), i;
-              for(i=0;i<oldA.length;i++) oldA[i].remove();
-              var note=host.querySelector('.livenote');
-              if(note) note.insertAdjacentHTML('beforebegin',fresh);
-              else{ var hdr=host.querySelector('header.top'); if(hdr) hdr.insertAdjacentHTML('afterend',fresh); }
-              var ln=host.querySelector('.livenote');
-              if(ln) ln.innerHTML='<span class="livetag">agora</span><b>Consenso de '+R.n+' modelos (atualizado agora)</b>, recalculado no seu navegador com dados do Open-Meteo. Previsão e alertas do INMET também foram consultados.';
-            }
+          if(fresh && host){
+            var oldA=host.querySelectorAll('.alert'), i;
+            for(i=0;i<oldA.length;i++) oldA[i].remove();
+            var note=host.querySelector('.livenote');
+            if(note) note.insertAdjacentHTML('beforebegin',fresh);
+            else{ var hdr=host.querySelector('header.top'); if(hdr) hdr.insertAdjacentHTML('afterend',fresh); }
+            revealAlerts(host);
+            setNoteDone(host, R.n, 'Previsão e alertas do INMET também foram consultados; fontes nacionais do consenso embutido permanecem no rodapé.');
+          } else {
+            setNoteDone(host, R.n, 'INMET consultado sem novo alerta para hoje; banner embutido mantido.');
           }
           finishOk(base+' + INMET','ok');
         } else {
           var why=(inm&&inm.err&&inm.err.message==='tempo esgotado')?'INMET demorou (mantido o embutido)':'INMET mantido (embutido)';
+          setNoteDone(host, R.n, why+'.');
           finishOk(base+' · '+why,'warn');
         }
-      },function(){ if(my!==token) return; finishOk(base+' · INMET mantido (embutido)','warn'); });
+      },function(){ if(my!==token) return; setNoteDone(document.querySelector('.city[data-slug="'+slug+'"]'), R.n, 'INMET mantido (embutido).'); finishOk(base+' · INMET mantido (embutido)','warn'); });
     }).catch(function(e){ if(my!==token) return; finishErr(e); });
   }
   if(BTN) BTN.addEventListener('click',refreshNow);
