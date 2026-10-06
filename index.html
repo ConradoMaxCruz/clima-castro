@@ -560,7 +560,7 @@ font-size:12.5px;line-height:1.45;color:#dbe6ff;box-shadow:0 12px 30px rgba(0,0,
       <p class="caveat">Ressalvas: MET Norway usa base ECMWF (não é totalmente independente); INMET não fornece milímetros nem probabilidade; wttr.in cobre só 3 dias; o número de fontes cai nos últimos dias do período. Alertas: INMET (fonte oficial). Previsões podem mudar — consulte a Defesa Civil (199) em emergências.</p>
     </div>
   </div>
-  <div class="foot-meta">Painel gerado automaticamente em 06/10/2026 às 16:11 (BRT) · dados de 06/10 11:37 (BRT) · período 06/10 a 12/10</div>
+  <div class="foot-meta">Painel gerado automaticamente em 06/10/2026 às 16:15 (BRT) · dados de 06/10 11:37 (BRT) · período 06/10 a 12/10</div>
 </footer>
 </section>
 <section class="city" data-slug="ponta-grossa" data-title="Clima em Ponta Grossa-PR — 06/10" aria-label="Previsão para Ponta Grossa-PR" hidden>
@@ -782,7 +782,7 @@ font-size:12.5px;line-height:1.45;color:#dbe6ff;box-shadow:0 12px 30px rgba(0,0,
       <p class="caveat">Ressalvas: MET Norway usa base ECMWF (não é totalmente independente); INMET não fornece milímetros nem probabilidade; wttr.in cobre só 3 dias; o número de fontes cai nos últimos dias do período. Alertas: INMET (fonte oficial). Previsões podem mudar — consulte a Defesa Civil (199) em emergências.</p>
     </div>
   </div>
-  <div class="foot-meta">Painel gerado automaticamente em 06/10/2026 às 16:11 (BRT) · dados de 06/10 11:38 (BRT) · período 06/10 a 12/10</div>
+  <div class="foot-meta">Painel gerado automaticamente em 06/10/2026 às 16:15 (BRT) · dados de 06/10 11:38 (BRT) · período 06/10 a 12/10</div>
 </footer>
 </section>
 <section class="city" data-slug="live" aria-label="Previsão consultada ao vivo" hidden></section>
@@ -1536,7 +1536,7 @@ font-size:12.5px;line-height:1.45;color:#dbe6ff;box-shadow:0 12px 30px rgba(0,0,
       lastRefAt=Date.now(); refreshing=false;
       var msg='Atualizado às '+brt(new Date(),{hour:'2-digit',minute:'2-digit'})+' (BRT) — '+R.n+' modelos';
       if(!(inm&&inm.ok)) msg+='; INMET mantido (embutido)';
-      setR(msg+(inm&&inm.ok?'':'')+(inm&&inm.ok?' + INMET':''), inm&&inm.ok?'ok':'warn');
+      setR(msg+(inm&&inm.ok?' + INMET':''), inm&&inm.ok?'ok':'warn');
     }).catch(function(e){
       if(my!==token) return; refreshing=false;
       setR(errMsg(e,'não foi possível atualizar — dados anteriores mantidos'),'err');
