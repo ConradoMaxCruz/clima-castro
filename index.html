@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Previsão por consenso de 13 fontes para Castro-PR: hoje chuva com trovoadas, máx. 18°C, mín. 14°C.">
+<meta name="theme-color" content="#070b16">
+<title>Clima em Castro-PR — 06/10</title>
+<style>
+:root{--bg:#070b16;--bg2:#0d1426;--card:rgba(255,255,255,.045);--card2:rgba(255,255,255,.07);--line:rgba(255,255,255,.09);
+--tx:#e8eefb;--mut:#93a1bd;--dim:#66738f;--acc:#5ab3ff;--hot:#ff7a59;--cold:#36c5f0;--ok:#35d07f;--mid:#ffc44d;--bad:#ff5d6c}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--bg)}
+body{font-family:"Inter","Segoe UI",system-ui,-apple-system,Roboto,"Helvetica Neue",Arial,sans-serif;color:var(--tx);min-height:100vh;
+background:radial-gradient(1200px 600px at 10% -10%,#1b2a55 0%,transparent 60%),radial-gradient(900px 500px at 110% 10%,#2a1b4d 0%,transparent 55%),var(--bg);
+-webkit-font-smoothing:antialiased;line-height:1.4}
+.wrap{max-width:1180px;margin:0 auto;padding:28px 22px 40px}
+b{font-weight:650}
+/* header */
+.top{display:flex;justify-content:space-between;align-items:flex-end;gap:18px;flex-wrap:wrap;margin-bottom:22px}
+.brand{display:flex;align-items:center;gap:14px}
+.logo{width:62px;height:62px;border-radius:18px;background:linear-gradient(145deg,#1e2c52,#121a33);border:1px solid var(--line);display:grid;place-items:center;box-shadow:0 8px 30px rgba(0,0,0,.35)}
+.logo .wx{width:52px;height:52px}
+h1{font-size:clamp(26px,4vw,38px);letter-spacing:-.02em;font-weight:800;background:linear-gradient(90deg,#fff,#b9d4ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{color:var(--mut);font-size:14px;margin-top:2px}
+.when{text-align:right}
+.date{font-size:17px;font-weight:600}
+.upd{color:var(--mut);font-size:13.5px;margin-top:4px;display:flex;align-items:center;gap:8px;justify-content:flex-end}
+.live-dot{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 0 rgba(53,208,127,.6);animation:live 2s infinite}
+@keyframes live{0%{box-shadow:0 0 0 0 rgba(53,208,127,.55)}70%{box-shadow:0 0 0 9px rgba(53,208,127,0)}100%{box-shadow:0 0 0 0 rgba(53,208,127,0)}}
+.stale{background:rgba(255,196,77,.12);border:1px solid rgba(255,196,77,.4);color:#ffe2a3;padding:10px 14px;border-radius:12px;margin-bottom:16px;font-size:14px}
+/* alerta */
+.alert{--acor:#ffc400;position:relative;display:flex;gap:18px;align-items:flex-start;padding:18px 22px;margin-bottom:22px;border-radius:18px;
+background:linear-gradient(110deg,rgba(255,196,0,.20),rgba(255,120,0,.10) 55%,rgba(255,196,0,.06));border:1.5px solid color-mix(in srgb,var(--acor) 70%,transparent);
+animation:apulse 2.4s ease-in-out infinite;overflow:hidden}
+.alert::before{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.10) 50%,transparent 70%);transform:translateX(-100%);animation:sheen 4.5s ease-in-out infinite}
+@keyframes apulse{0%,100%{box-shadow:0 0 0 0 rgba(255,196,0,.0),0 10px 40px rgba(255,170,0,.10)}50%{box-shadow:0 0 0 6px rgba(255,196,0,.13),0 10px 50px rgba(255,170,0,.28)}}
+@keyframes sheen{0%,60%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+.alert-ico{position:relative;flex:0 0 52px;height:52px;display:grid;place-items:center;color:var(--acor)}
+.warn-ico{width:40px;height:40px;position:relative;z-index:1;animation:wobble 2.4s ease-in-out infinite}
+@keyframes wobble{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+.ring{position:absolute;inset:0;border-radius:50%;border:2px solid var(--acor);opacity:0;animation:ring 2.4s ease-out infinite}
+.ring.r2{animation-delay:1.2s}
+@keyframes ring{0%{transform:scale(.5);opacity:.8}100%{transform:scale(1.5);opacity:0}}
+.alert-body{position:relative;z-index:1;min-width:0}
+.alert-tag{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#ffd75e;font-weight:700}
+.alert h2{font-size:24px;margin:2px 0 4px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.sev{font-size:13px;font-weight:700;color:#1b1300;background:var(--acor);padding:3px 10px;border-radius:999px}
+.alert-per{color:#ffe9b0;font-size:14.5px}
+.alert-risk{margin-top:6px;color:#fff3d6;font-size:15px;max-width:900px}
+.instr{margin-top:8px;font-size:13.5px;color:#f5e3bb}
+.instr summary{cursor:pointer;color:#ffd75e;font-weight:600}
+.instr ul{margin:6px 0 0 18px}
+/* hoje */
+.today{position:relative;display:grid;grid-template-columns:1.15fr 1fr;gap:22px;padding:26px;border-radius:24px;overflow:hidden;margin-bottom:26px;
+border:1px solid var(--line);box-shadow:0 20px 60px rgba(0,0,0,.45)}
+.sky-storm{background:linear-gradient(160deg,#1c2342 0%,#141a30 45%,#0d1222 100%)}
+.sky-rain{background:linear-gradient(160deg,#1a2a46 0%,#131d33 60%,#0d1424 100%)}
+.sky-showers,.sky-drizzle{background:linear-gradient(160deg,#20335a 0%,#152241 60%,#0e1730 100%)}
+.sky-partly,.sky-cloudy{background:linear-gradient(160deg,#284a7e 0%,#1a3260 55%,#11214a 100%)}
+.sky-fx{position:absolute;inset:0;pointer-events:none}
+.streaks{position:absolute;inset:-40% 0 0;opacity:0;background-image:repeating-linear-gradient(105deg,transparent 0 22px,rgba(160,190,255,.10) 22px 23px,transparent 23px 60px);animation:streak .9s linear infinite}
+.sky-storm .streaks,.sky-rain .streaks{opacity:1}.sky-showers .streaks{opacity:.5}
+@keyframes streak{to{transform:translate(-14px,60px)}}
+.flash{position:absolute;inset:0;background:radial-gradient(600px 300px at 25% 20%,rgba(200,215,255,.35),transparent 70%);opacity:0}
+.sky-storm .flash{animation:skyflash 5s infinite}
+@keyframes skyflash{0%,86%,100%{opacity:0}87%{opacity:.9}88.5%{opacity:.1}90%{opacity:.7}93%{opacity:0}}
+.today-main,.today-stats{position:relative;z-index:1}
+.today-label{display:inline-block;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#bcd2ff;background:rgba(255,255,255,.08);padding:5px 12px;border-radius:999px}
+.today-hero{display:flex;align-items:center;gap:8px;margin-top:6px}
+.today-icon .wx{width:210px;height:192px;filter:drop-shadow(0 12px 24px rgba(0,0,0,.4))}
+.t-max{font-size:92px;font-weight:800;letter-spacing:-.04em;line-height:.95}
+.t-max sup{font-size:30px;font-weight:600;color:var(--mut);vertical-align:top;margin-left:4px;position:relative;top:12px}
+.t-min{font-size:20px;color:#a8c6ff;margin-top:4px}
+.t-cond{font-size:22px;font-weight:650;margin-top:8px}
+.t-src{font-size:13px;color:var(--mut);margin-top:4px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.chip{font-size:13px;padding:5px 11px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid var(--line);color:#dbe6ff}
+.chip-alert{background:rgba(255,196,0,.16);border-color:rgba(255,196,0,.5);color:#ffe07a;font-weight:600}
+.today-stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-content:center}
+.stat{background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:16px;padding:14px 16px;backdrop-filter:blur(6px)}
+.stat.wide{grid-column:1/-1}
+.stat .k{font-size:12.5px;color:var(--mut);text-transform:uppercase;letter-spacing:.08em;font-weight:600}
+.stat .v{font-size:30px;font-weight:750;margin-top:2px;letter-spacing:-.01em}
+.stat .v small{font-size:15px;color:var(--mut);font-weight:600}
+.stat .n{font-size:12.5px;color:var(--dim);margin-top:3px}
+.bar{height:6px;border-radius:6px;background:rgba(255,255,255,.08);overflow:hidden;margin-top:6px}
+.bar i{display:block;height:100%;width:var(--w);border-radius:6px;background:linear-gradient(90deg,#4facfe,#7f5cff);transform-origin:left;animation:barx 1.4s cubic-bezier(.2,.8,.2,1) both .4s}
+.bar.sm{height:4px;margin-top:4px}
+@keyframes barx{from{transform:scaleX(0)}}
+/* concordância */
+.agree{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--mut)}
+.agree .segs{display:inline-flex;gap:3px}
+.agree .segs i{width:16px;height:7px;border-radius:4px;background:rgba(255,255,255,.12)}
+.agree.big .segs i{width:34px;height:10px}
+.agree.big .agree-lab{font-size:22px;color:var(--tx);font-weight:700;text-transform:capitalize}
+.agree.lvl3 .segs i.on{background:var(--ok)}.agree.lvl2 .segs i.on{background:var(--mid)}.agree.lvl1 .segs i.on{background:var(--bad)}
+.agree .segs i.on{animation:seg .5s both;animation-delay:calc(.8s + var(--i)*.15s)}
+@keyframes seg{from{opacity:.15;transform:scaleY(.4)}}
+.agree.lvl3 .agree-lab{color:#7fe6ac}.agree.lvl2 .agree-lab{color:#ffd77e}.agree.lvl1 .agree-lab{color:#ff9aa3}
+/* seções */
+h2.sec{font-size:20px;font-weight:750;margin:0 0 14px;letter-spacing:-.01em;display:flex;align-items:center;gap:10px}
+h2.sec::before{content:"";width:4px;height:20px;border-radius:3px;background:linear-gradient(#5ab3ff,#7f5cff)}
+.sec-note{color:var(--mut);font-size:14px;margin:-6px 0 14px;max-width:880px}
+.days{margin-bottom:28px}
+.day-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:12px}
+.day{position:relative;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px 12px 12px;text-align:center;
+transition:transform .25s,background .25s,border-color .25s;animation:rise .7s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(.15s + var(--d)*.08s)}
+.day:hover{transform:translateY(-4px);background:var(--card2);border-color:rgba(255,255,255,.18)}
+.day.is-today{background:linear-gradient(180deg,rgba(90,179,255,.16),rgba(127,92,255,.08));border-color:rgba(90,179,255,.45)}
+@keyframes rise{from{opacity:0;transform:translateY(18px)}}
+.d-head{display:flex;justify-content:space-between;align-items:baseline}
+.d-wd{font-weight:750;font-size:15px}.d-dt{color:var(--mut);font-size:12.5px}
+.d-icon .wx{width:84px;height:77px;margin:4px auto 0;display:block}
+.d-cond{font-size:12.5px;color:#c4d1ea;min-height:34px;display:flex;align-items:center;justify-content:center;line-height:1.25}
+.d-temp{display:flex;justify-content:center;gap:10px;align-items:baseline;margin:6px 0 4px}
+.d-temp .hi{font-size:24px;font-weight:800;color:#ffb38a}.d-temp .lo{font-size:17px;font-weight:650;color:#86c8ff}
+.d-rain{display:flex;align-items:center;justify-content:center;gap:6px;font-size:13px}
+.dropico{width:9px;height:12px;fill:#5ab3ff}
+.pp{color:var(--mut)}
+.d-gust{font-size:12px;color:var(--dim);margin-top:6px}
+.d-agree{margin-top:8px}.d-agree .agree{font-size:11.5px}
+.d-badges{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;margin-top:8px;min-height:20px}
+.dbadge{white-space:nowrap;display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:650;padding:2px 8px;border-radius:999px;background:rgba(127,92,255,.18);color:#cbbcff;border:1px solid rgba(127,92,255,.35)}
+.dbadge.alert-b{background:rgba(255,196,0,.16);color:#ffd75e;border-color:rgba(255,196,0,.5);animation:wobble 2.4s infinite}
+.dbadge.alert-b .warn-ico{width:12px;height:12px;animation:none}
+.dbadge.soft{background:rgba(255,255,255,.06);color:#c9d3e6;border-color:var(--line)}
+/* gráficos */
+.charts{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:28px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:18px 18px 14px}
+.panel h3{font-size:16px;font-weight:700;margin-bottom:6px}
+.panel .h3n{color:var(--mut);font-size:13px;margin-bottom:6px}
+.chart{width:100%;height:auto;display:block;overflow:visible}
+.chart .grid{stroke:rgba(255,255,255,.07);stroke-width:1}
+.chart text{font-family:inherit}
+.chart .ax{fill:var(--dim);font-size:13px}
+.chart .xl{fill:#cdd8ee;font-size:14.5px;font-weight:650}.chart .xl2{fill:var(--dim);font-size:12px}
+.chart .prob{fill:#8fb8ff;font-size:14px;font-weight:700}
+.band{opacity:0;animation:fadein 1s ease forwards 1.3s}
+.band-max{fill:rgba(255,120,90,.13)}.band-min{fill:rgba(60,180,255,.13)}
+.line{fill:none;stroke-width:3.5;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;animation:draw 1.8s cubic-bezier(.6,.1,.2,1) forwards .3s}
+@keyframes draw{to{stroke-dashoffset:0}}
+.lmin.line{animation-delay:.6s}
+.pt{opacity:0;animation:pop .45s cubic-bezier(.3,1.6,.5,1) forwards;animation-delay:calc(.5s + var(--i)*.22s);transform-box:fill-box;transform-origin:center}
+@keyframes pop{from{opacity:0;transform:scale(.3)}to{opacity:1;transform:scale(1)}}
+.dot{stroke:#0b1122;stroke-width:2.5}.dot.lmax{fill:#ff8a5b}.dot.lmin{fill:#36c5f0}
+.val{font-size:14.5px;font-weight:750}.val.lmax{fill:#ffb38a}.val.lmin{fill:#8fd6ff}.val.vr{fill:#d9e6ff}
+.bar-r{transform-box:fill-box;transform-origin:50% 100%;transform:scaleY(0);animation:grow 1s cubic-bezier(.2,.9,.25,1.05) forwards;animation-delay:calc(.3s + var(--i)*.12s)}
+@keyframes grow{to{transform:scaleY(1)}}
+.whisk line{stroke:rgba(220,230,255,.55);stroke-width:1.6}
+.whisk,.rbar .val{opacity:0;animation:fadein .6s forwards;animation-delay:calc(1.1s + var(--i)*.12s)}
+@keyframes fadein{to{opacity:1}}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:12.5px;color:var(--mut);margin-top:8px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.lg{display:inline-block;width:18px;height:4px;border-radius:2px}
+.lg.lmax{background:linear-gradient(90deg,#ffb347,#ff5e62)}.lg.lmin{background:linear-gradient(90deg,#4facfe,#00f2fe)}
+.lg.band{height:10px;background:linear-gradient(90deg,rgba(255,120,90,.3),rgba(60,180,255,.3))}
+.lg.bar{width:10px;height:12px;background:linear-gradient(#5ab3ff,#2a5bd7);border-radius:3px}
+.lg.whisk{width:2px;height:14px;background:rgba(220,230,255,.6)}
+.lg.probt{width:auto;height:auto;color:#8fb8ff;font-style:normal;font-weight:700}
+/* lista de concordância */
+.agree-sec{margin-bottom:28px}
+.ag-list{display:grid;gap:8px}
+.ag-row{display:grid;grid-template-columns:150px 150px 1fr;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 16px;
+animation:rise .6s both;animation-delay:calc(.1s + var(--i)*.07s)}
+.ag-day b{font-weight:700}.ag-day span{color:var(--mut);font-size:13px;margin-left:4px}
+.ag-det{display:grid;grid-template-columns:120px 230px 120px 80px;gap:6px 18px;font-size:13px;color:var(--mut)}
+.ag-wet{display:flex;align-items:center;gap:8px}.ag-wet>span:first-child{min-width:128px}.ag-wet .bar{flex:1;margin:0;max-width:90px}
+.ag-det b{color:#dbe6ff;font-weight:650}
+/* rodapé */
+.foot{border-top:1px solid var(--line);padding-top:22px;color:var(--mut);font-size:13.5px}
+.foot-grid{display:grid;grid-template-columns:1fr 1.3fr;gap:28px}
+.foot h3{color:var(--tx);font-size:15px;margin-bottom:10px}
+.foot p{margin-bottom:8px}
+.srcs{list-style:none;display:grid;gap:6px}
+.srcs li b{color:#dbe6ff;font-weight:650}.srcs li span{color:var(--dim);font-size:12px}
+.caveat{font-size:12.5px;color:var(--dim)}
+.skipped{color:#ffcf7a;font-size:12.5px;margin-top:8px}
+.foot-meta{margin-top:18px;font-size:12px;color:var(--dim);text-align:center}
+/* ícones */
+.wx{overflow:visible}
+.wx .rays line{stroke:#ffc94a;stroke-width:3.2;stroke-linecap:round}
+.wx .rays{animation:spin 16s linear infinite}
+.wx .sun{animation:glow 3.5s ease-in-out infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes glow{0%,100%{filter:drop-shadow(0 0 4px rgba(255,190,60,.45))}50%{filter:drop-shadow(0 0 12px rgba(255,190,60,.85))}}
+.wx .cloud-front{animation:drift 7s ease-in-out infinite alternate}
+.wx .cloud-back{animation:drift2 9s ease-in-out infinite alternate}
+@keyframes drift{from{transform:translateX(-4px)}to{transform:translateX(5px)}}
+@keyframes drift2{from{transform:translate(18px,-12px) scale(.82)}to{transform:translate(8px,-12px) scale(.82)}}
+.wx .drop{stroke:#7cc4ff;stroke-width:3;stroke-linecap:round;opacity:0;animation:fall 1.05s linear infinite}
+.wx .drop.drizzle{fill:#9fd3ff;stroke:none;animation-duration:1.6s}
+.wx-storm .drop{animation-duration:.8s}
+@keyframes fall{0%{transform:translateY(-6px);opacity:0}15%{opacity:1}85%{opacity:.9}100%{transform:translateY(20px);opacity:0}}
+.wx .bolt{opacity:.55;animation:bolt 3.2s infinite;filter:drop-shadow(0 0 6px rgba(255,220,80,.9))}
+@keyframes bolt{0%,78%,100%{opacity:.55}80%{opacity:1;filter:drop-shadow(0 0 14px rgba(255,235,120,1))}82%{opacity:.2}84%{opacity:1;filter:drop-shadow(0 0 16px rgba(255,235,120,1))}90%{opacity:.55}}
+/* revelação ao rolar (somente com JS) */
+.js .reveal:not(.in),.js .reveal:not(.in) *{animation-play-state:paused!important}
+.js .reveal{opacity:0;transform:translateY(16px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.8,.2,1)}
+.js .reveal.in{opacity:1;transform:none}
+/* responsivo */
+@media (max-width:1060px){.day-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.charts{grid-template-columns:1fr}}
+@media (max-width:1000px){.ag-det{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:820px){.today{grid-template-columns:1fr}.foot-grid{grid-template-columns:1fr}.ag-row{grid-template-columns:1fr 1fr}.ag-det{grid-column:1/-1}}
+@media (max-width:620px){
+ .wrap{padding:18px 14px 30px}.when{text-align:left}.upd{justify-content:flex-start}
+ .day-grid{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:8px;margin:0 -14px;padding-left:14px;padding-right:14px}
+ .day{flex:0 0 150px;scroll-snap-align:start}
+ .today{padding:18px}.today-hero{flex-direction:column;align-items:flex-start}.today-icon .wx{width:150px;height:137px}
+ .chart .xl{font-size:17px}.chart .xl2{display:none}.chart .prob{font-size:16px}.chart .val{font-size:16px}.chart .ax{font-size:15px}
+ .t-max{font-size:72px}.stat .v{font-size:24px}.alert{flex-direction:column;gap:8px;padding:16px}.alert h2{font-size:20px}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}
+ .line{stroke-dashoffset:0}.bar-r{transform:none}.pt,.band,.whisk,.rbar .val,.drop{opacity:1}.js .reveal{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<radialGradient id="gSun" cx="40%" cy="40%" r="65%"><stop offset="0" stop-color="#fff3b0"/><stop offset=".55" stop-color="#ffc94a"/><stop offset="1" stop-color="#ff9f1c"/></radialGradient>
+<linearGradient id="gCloud" gradientUnits="userSpaceOnUse" x1="0" y1="25" x2="0" y2="76"><stop offset="0" stop-color="#f4f7fb"/><stop offset="1" stop-color="#b9c6d8"/></linearGradient>
+<linearGradient id="gCloudRain" gradientUnits="userSpaceOnUse" x1="0" y1="25" x2="0" y2="76"><stop offset="0" stop-color="#c9d3e1"/><stop offset="1" stop-color="#7b8aa3"/></linearGradient>
+<linearGradient id="gCloudStorm" gradientUnits="userSpaceOnUse" x1="0" y1="25" x2="0" y2="76"><stop offset="0" stop-color="#a9b4c8"/><stop offset="1" stop-color="#525e77"/></linearGradient>
+<linearGradient id="gCloudDark" gradientUnits="userSpaceOnUse" x1="0" y1="25" x2="0" y2="76"><stop offset="0" stop-color="#6c7891"/><stop offset="1" stop-color="#3a4359"/></linearGradient>
+<linearGradient id="gBolt" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff6a8"/><stop offset="1" stop-color="#ffc400"/></linearGradient>
+<linearGradient id="gTmax" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ffb347"/><stop offset="1" stop-color="#ff5e62"/></linearGradient>
+<linearGradient id="gTmin" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#4facfe"/><stop offset="1" stop-color="#00f2fe"/></linearGradient>
+<linearGradient id="gBar" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5ab3ff"/><stop offset="1" stop-color="#2a5bd7"/></linearGradient>
+<linearGradient id="gBarHi" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8f7dff"/><stop offset="1" stop-color="#3b2fc9"/></linearGradient>
+</defs></svg>
+<main class="wrap">
+
+<header class="top reveal">
+  <div class="brand">
+    <div class="logo"><svg class="wx wx-storm mini" viewBox="0 0 120 110" role="img" aria-hidden="true"><g class="cloud cloud-back" fill="url(#gCloudDark)" transform="translate(14 -12) scale(.82)"><circle cx="38" cy="58" r="16"/><circle cx="60" cy="47" r="22"/><circle cx="82" cy="59" r="15"/><rect x="38" y="52" width="44" height="22"/></g><g class="cloud cloud-front" fill="url(#gCloudStorm)"><circle cx="38" cy="58" r="16"/><circle cx="60" cy="47" r="22"/><circle cx="82" cy="59" r="15"/><rect x="38" y="52" width="44" height="22"/></g><polygon class="bolt" points="62,66 50,88 59,88 53,106 73,80 63,80 70,66" fill="url(#gBolt)"/><line class="drop" x1="36" y1="78" x2="33" y2="88" style="animation-delay:0s"/><line class="drop" x1="44" y1="78" x2="41" y2="88" style="animation-delay:0.35s"/><line class="drop" x1="80" y1="78" x2="77" y2="88" style="animation-delay:0.2s"/><line class="drop" x1="88" y1="78" x2="85" y2="88" style="animation-delay:0.6s"/><line class="drop" x1="72" y1="78" x2="69" y2="88" style="animation-delay:0.85s"/></svg></div>
+    <div><h1>Clima em Castro-PR</h1>
+    <p class="sub">Campos Gerais · Paraná · ~1.000 m de altitude</p></div>
+  </div>
+  <div class="when">
+    <div class="date">Terça-feira, 6 de outubro de 2026</div>
+    <div class="upd"><span class="live-dot"></span>Dados atualizados às <b>07:55</b> (BRT) de 06/10</div>
+  </div>
+</header>
+
+
+<section class="alert reveal" style="--acor:#FFFE00" role="alert">
+  <div class="alert-ico"><svg class="warn-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5 1.5 21h21L12 2.5Z" fill="currentColor"/><rect x="11" y="9" width="2" height="6.5" rx="1" fill="#1b1300"/><circle cx="12" cy="18" r="1.2" fill="#1b1300"/></svg><span class="ring"></span><span class="ring r2"></span></div>
+  <div class="alert-body">
+    <div class="alert-tag">Alerta oficial INMET · em vigor agora</div>
+    <h2>Tempestade <span class="sev">Perigo Potencial</span></h2>
+    <p class="alert-per">Válido de <b>06/10 00:00 até 06/10 23:59</b> (horário de Brasília)</p>
+    <p class="alert-risk">Chuva entre 20 e 30 mm/h ou até 50 mm/dia, ventos intensos (40-60 km/h), e queda de granizo. Baixo risco de corte de energia elétrica, estragos em plantações, queda de galhos de árvores e de alagamentos.</p>
+    <details class="instr"><summary>Orientações da Defesa Civil / INMET</summary><ul><li>Em caso de rajadas de vento: (não se abrigue debaixo de árvores, pois há leve risco de queda e descargas elétricas e não estacione veículos próximos a torres de transmissão e placas de propaganda).</li><li>Evite usar aparelhos eletrônicos ligados à tomada.</li><li>Obtenha mais informações junto à Defesa Civil (telefone 199) e ao Corpo de Bombeiros (telefone 193).</li></ul></details>
+  </div>
+</section>
+
+<section class="today sky-storm reveal" aria-label="Previsão de hoje">
+  <div class="sky-fx"><div class="streaks"></div><div class="flash"></div></div>
+  <div class="today-main">
+    <div class="today-label">Hoje · Terça 06/10</div>
+    <div class="today-hero">
+      <div class="today-icon"><svg class="wx wx-storm big" viewBox="0 0 120 110" role="img" aria-hidden="true"><g class="cloud cloud-back" fill="url(#gCloudDark)" transform="translate(14 -12) scale(.82)"><circle cx="38" cy="58" r="16"/><circle cx="60" cy="47" r="22"/><circle cx="82" cy="59" r="15"/><rect x="38" y="52" width="44" height="22"/></g><g class="cloud cloud-front" fill="url(#gCloudStorm)"><circle cx="38" cy="58" r="16"/><circle cx="60" cy="47" r="22"/><circle cx="82" cy="59" r="15"/><rect x="38" y="52" width="44" height="22"/></g><polygon class="bolt" points="62,66 50,88 59,88 53,106 73,80 63,80 70,66" fill="url(#gBolt)"/><line class="drop" x1="36" y1="78" x2="33" y2="88" style="animation-delay:0s"/><line class="drop" x1="44" y1="78" x2="41" y2="88" style="animation-delay:0.35s"/><line class="drop" x1="80" y1="78" x2="77" y2="88" style="animation-delay:0.2s"/><line class="drop" x1="88" y1="78" x2="85" y2="88" style="animation-delay:0.6s"/><line class="drop" x1="72" y1="78" x2="69" y2="88" style="animation-delay:0.85s"/></svg></div>
+      <div class="today-temps">
+        <div class="t-max"><span class="count" data-to="17.8" data-nd="0">18</span><sup>°C</sup></div>
+        <div class="t-min">mín <b><span class="count" data-to="13.9" data-nd="0">14</span>°</b></div>
+        <div class="t-cond">Chuva com trovoadas</div>
+        <div class="t-src">Média de 13 fontes · máx. 15–20° · mín. 13–15°</div>
+      </div>
+    </div>
+    <div class="chips"><span class="chip chip-alert">ALERTA INMET: Tempestade (Perigo Potencial)</span><span class="chip">chuva forte</span></div>
+  </div>
+  <div class="today-stats">
+    <div class="stat"><div class="k">Chuva prevista</div><div class="v"><span class="count" data-to="24.4" data-nd="1">24,4</span> <small>mm</small></div>
+      <div class="n">faixa entre fontes: 1,7–48,5 mm</div></div>
+    <div class="stat"><div class="k">Chance de chuva</div><div class="v"><span class="count" data-to="96.2" data-nd="0">96</span><small>%</small></div>
+      <div class="bar"><i style="--w:96%"></i></div><div class="n">média de 8 fontes</div></div>
+    <div class="stat"><div class="k">Rajadas</div><div class="v"><small>até</small> <span class="count" data-to="47.0" data-nd="0">47</span> <small>km/h</small></div>
+      <div class="n">maior valor entre as fontes</div></div>
+    <div class="stat"><div class="k">Vento máximo</div><div class="v"><span class="count" data-to="14.0" data-nd="0">14</span> <small>km/h</small></div>
+      <div class="n">média das fontes (maior: 20 km/h)</div></div>
+    <div class="stat wide"><div class="k">Concordância das fontes</div><div class="v"><span class="agree lvl2 big" title="Concordância média: desvio-padrão da máxima 1,5 °C; 100% das fontes com chuva ≥ 1 mm; coef. de variação da chuva 0,54"><span class="segs"><i class="on" style="--i:0"></i><i class="on" style="--i:1"></i><i class="" style="--i:2"></i></span><span class="agree-lab">média</span></span></div>
+      <div class="n">13 fontes · σ máx. 1,5 °C · 100% preveem chuva</div></div>
+  </div>
+</section>
+<section class="days reveal" aria-label="Próximos dias"><h2 class="sec">Próximos 7 dias</h2><div class="day-grid">
+  <article class="day is-today" style="--d:0">
+    <div class="d-head"><span class="d-wd">Hoje</span><span class="d-dt">06/10</span></div>
+    <div class="d-icon"><svg class="wx wx-storm " viewBox="0 0 120 110" role="img" aria-hidden="true"><g class="cloud cloud-back" fill="url(#gCloudDark)" transform="translate(14 -12) scale(.82)"><circle cx="38" cy="58" r="16"/><circle cx="60" cy="47" r="22"/><circle cx="82" cy="59" r="15"/><rect x="38" y="52" width="44" height="22"/></g><g class="cloud cloud-front" fill="url(#gCloudStorm)"><circle cx="38" cy="58" r="16"/><circle cx="60" cy="47" r="22"/><circle cx="82" cy="59" r="15"/><rect x="38" y="52" width="44" height="22"/></g><polygon class="bolt" points="62,66 50,88 59,88 53,106 73,80 63,80 70,66" fill="url(#gBolt)"/><line class="drop" x1="36" y1="78" x2="33" y2="88" style="animation-delay:0s"/><line class="drop" x1="44" y1="78" x2="41" y2="88" style="animation-delay:0.35s"/><line class="drop" x1="80" y1="78" x2="77" y2="88" style="animation-delay:0.2s"/><line class="drop" x1="88" y1="78" x2="85" y2="88" style="animation-delay:0.6s"/><line class="drop" x1="72" y1="78" x2="69" y2="88" style="animation-delay:0.85s"/></svg></div>
+    <div class="d-cond">Chuva com trovoadas</div>
+    <div class="d-temp"><span class="hi">18°</span><span class="lo">14°</span></div>
+    <div class="d-rain"><svg viewBox="0 0 10 14" class="dropico" aria-hidden="true"><path d="M5 0C5 0 0 6.5 0 9.2A5 5 0 0 0 10 9.2C10 6.5 5 0 5 0Z"/></svg>
+      <b>24,4 mm</b><span class="pp">96%</span></div>
+    <div class="bar sm"><i style="--w:96%"></i></div>
+    <div class="d-gust">rajadas até 47 km/h</div>
+    <div class="d-agree"><span class="agree lvl2" title="Concordância média: desvio-padrão da máxima 1,5 °C; 100% das fontes com chuva ≥ 1 mm; coef. de variação da chuva 0,54"><span class="segs"><i class="on" style="--i:0"></i><i class="on" style="--i:1"></i><i class="" style="--i:2"></i></span><span class="agree-lab">média</span></span></div>
+    <div class="d-badges"><span class="dbadge alert-b"><svg class="warn-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5 1.5 21h21L12 2.5Z" fill="currentColor"/><rect x="11" y="9" width="2" height="6.5" rx="1" fill="#1b1300"/><circle cx="12" cy="18" r="1.2" fill="#1b1300"/></svg> alerta</span></div>
+  </article>
+  <article class="day" style="--d:1">
+    <div class="d-head"><span class="d-wd">Qua</span><span class="d-dt">07/10</span></div>
+    <div class="d-icon"><svg class="wx wx-showers " viewBox="0 0 120 110" role="img" aria-hidden="true"><g class="sun" style="transform-origin:34px 32px"><g class="rays" style="transform-origin:34px 32px"><line x1="34" y1="5" x2="34" y2="11" transform="rotate(0 34 32)"/><line x1="34" y1="5" x2="34" y2="11" transform="rotate(45 34 32)"/><line x1="34" y1="5" x2="34" y2="11" transform="rotate(90 34 32)"/><line x1="34" y1="5" x2="34" y2="11" transform="rotate(135 34 32)"/><line x1="34" y1="5" x2="34" y2="11" transform="rotate(180 34 32)"/><line x1="34" y1="5" x2="34" y2="11" transform="rotate(225 34 32)"/><line x1="34" y1="5" x2="34" y2="11" transform="rotate(270 34 32)"/><line x1="34" y1="5" x2="34" y2="11" transform="rotate(315 34 32)"/></g><circle cx="34" cy="32" r="15" fill="url(#gSun)"/></g><g class="cloud cloud-front" fill="url(#gCloud)"><circle cx="38" cy="58" r="16"/><circle cx="60" cy="47" r="22"/><circle cx="82" cy="59" r="15"/><rect x="38" y="52" width="44" height="22"/></g><line class="drop" x1="48" y1="78" x2="45" y2="88" style="animation-delay:0s"/><line class="drop" x1="62" y1="78" x2="59" y2="88" style="animation-delay:0.4s"/><line class="drop" x1="76" y1="78" x2="73" y2="88" style="animation-delay:0.2s"/></svg></div>
+    <div class="d-cond">Nublado com pancadas</div>
+    <div class="d-temp"><span class="hi">24°</span><span class="lo">15°</span></div>
+    <div class="d-rain"><svg viewBox="0 0 10 14" class="dropico" aria-hidden="true"><path d="M5 0C5 0 0 6.5 0 9.2A5 5 0 0 0 10 9.2C10 6.5 5 0 5 0Z"/></svg>
+      <b>2,5 mm</b><span class="pp">59%</span></div>
+    <div class="bar sm"><i style="--w:59%"></i></div>
+    <div class="d-gust">rajadas até 36 km/h</div>
+    <div class="d-agree"><span class="agree lvl1" title="Concordância baixa: desvio-padrão da máxima 1,1 °C; 58% das fontes com chuva ≥ 1 mm; coef. de variação da chuva 1,02"><span class="segs"><i class="on" style="--i:0"></i><i class="" style="--i:1"></i><i class="" style="--i:2"></i></span><span class="agree-lab">baixa</span></span></div>
+    <div class="d-badges"></div>
+  </article>
+  <article class="day" style="--d:2">
+    <div class="d-head"><span class="d-wd">Qui</span><span class="d-dt">08/10</span></div>
+    <div class="d-icon"><svg class="wx wx-storm " viewBox="0 0 120 110" role="img" aria-hidden="true"><g class="cloud cloud-back" fill="url(#gCloudDark)" transform="translate(14 -12) scale(.82)"><circle cx="38" cy="58" r="16"/><circle cx="60" cy="47" r="22"/><circle cx="82" cy="59" r="15"/><rect x="38" y="52" width="44" height="22"/></g><g class="cloud cloud-front" fill="url(#gCloudStorm)"><circle cx="38" cy="58" r="16"/><circle cx="60" cy="47" r="22"/><circle cx="82" cy="59" r="15"/><rect x="38" y="52" width="44" height="22"/></g><polygon class="bolt" points="62,66 50,88 59,88 53,106 73,80 63,80 70,66" fill="url(#gBolt)"/><line class="drop" x1="36" y1="78" x2="33" y2="88" style="animation-delay:0s"/><line class="drop" x1="44" y1="78" x2="41" y2="88" style="animation-delay:0.35s"/><line class="drop" x1="80" y1="78" x2="77" y2="88" style="animation-delay:0.2s"/><line class="drop" x1="88" y1="78" x2="85" y2="88" style="animation-delay:0.6s"/><line class="drop" x1="72" y1="78" x2="69" y2="88" style="animation-delay:0.85s"/></svg></div>
+    <div class="d-cond">Chuva com trovoadas</div>
+    <div class="d-temp"><span class="hi">27°</span><span class="lo">16°</span></div>
+    <div class="d-rain"><svg viewBox="0 0 10 14" class="dropico" aria-hidden="true"><path d="M5 0C5 0 0 6.5 0 9.2A5 5 0 0 0 10 9.2C10 6.5 5 0 5 0Z"/></svg>
+      <b>2,4 mm</b><span class="pp">52%</span></div>
+    <div class="bar sm"><i style="--w:52%"></i></div>
+    <div class="d-gust">rajadas até 47 km/h</div>
+    <div class="d-agree"><span class="agree lvl2" title="Concordância média: desvio-padrão da máxima 0,9 °C; 67% das fontes com chuva ≥ 1 mm; coef. de variação da chuva 0,88"><span class="segs"><i class="on" style="--i:0"></i><i class="on" style="--i:1"></i><i class="" style="--i:2"></i></span><span class="agree-lab">média</span></span></div>
+    <div class="d-badges"><span class="dbadge">trovoadas</span></div>
+  </article>
+  <article class="day" style="--d:3">
+    <div class="d-head"><span class="d-wd">Sex</span><span class="d-dt">09/10</span></div>
+    <div class="d-icon"><svg class="wx wx-storm " viewBox="0 0 120 110" role="img" aria-hidden="true"><g class="cloud cloud-back" fill="url(#gCloudDark)" transform="translate(14 -12) scale(.82)"><circle cx="38" cy="58" r="16"/><circle cx="60" cy="47" r="22"/><circle cx="82" cy="59" r="15"/><rect x="38" y="52" width="44" height="22"/></g><g class="cloud cloud-front" fill="url(#gCloudStorm)"><circle cx="38" cy="58" r="16"/><circle cx="60" cy="47" r="22"/><circle cx="82" cy="59" r="15"/><rect x="38" y="52" width="44" height="22"/></g><polygon class="bolt" points="62,66 50,88 59,88 53,106 73,80 63,80 70,66" fill="url(#gBolt)"/><line class="drop" x1="36" y1="78" x2="33" y2="88" style="animation-delay:0s"/><line class="drop" x1="44" y1="78" x2="41" y2="88" style="animation-delay:0.35s"/><line class="drop" x1="80" y1="78" x2="77" y2="88" style="animation-delay:0.2s"/><line class="drop" x1="88" y1="78" x2="85" y2="88" style="animation-delay:0.6s"/><line class="drop" x1="72" y1="78" x2="69" y2="88" style="animation-delay:0.85s"/></svg></div>
+    <div class="d-cond">Chuva com trovoadas</div>
+    <div class="d-temp"><span class="hi">29°</span><span class="lo">17°</span></div>
+    <div class="d-rain"><svg viewBox="0 0 10 14" class="dropico" aria-hidden="true"><path d="M5 0C5 0 0 6.5 0 9.2A5 5 0 0 0 10 9.2C10 6.5 5 0 5 0Z"/></svg>
+      <b>5,0 mm</b><span class="pp">67%</span></div>
+    <div class="bar sm"><i style="--w:67%"></i></div>
+    <div class="d-gust">rajadas até 46 km/h</div>
+    <div class="d-agree"><span class="agree lvl2" title="Concordância média: desvio-padrão da máxima 1,7 °C; 91% das fontes com chuva ≥ 1 mm; coef. de variação da chuva 0,58"><span class="segs"><i class="on" style="--i:0"></i><i class="on" style="--i:1"></i><i class="" style="--i:2"></i></span><span class="agree-lab">média</span></span></div>
+    <div class="d-badges"><span class="dbadge">trovoadas</span><span class="dbadge soft">calor (33°C, 1 fonte)</span></div>
+  </article>
+  <article class="day" style="--d:4">
+    <div class="d-head"><span class="d-wd">Sáb</span><span class="d-dt">10/10</span></div>
+    <div class="d-icon"><svg class="wx wx-storm " viewBox="0 0 120 110" role="img" aria-hidden="true"><g class="cloud cloud-back" fill="url(#gCloudDark)" transform="translate(14 -12) scale(.82)"><circle cx="38" cy="58" r="16"/><circle cx="60" cy="47" r="22"/><circle cx="82" cy="59" r="15"/><rect x="38" y="52" width="44" height="22"/></g><g class="cloud cloud-front" fill="url(#gCloudStorm)"><circle cx="38" cy="58" r="16"/><circle cx="60" cy="47" r="22"/><circle cx="82" cy="59" r="15"/><rect x="38" y="52" width="44" height="22"/></g><polygon class="bolt" points="62,66 50,88 59,88 53,106 73,80 63,80 70,66" fill="url(#gBolt)"/><line class="drop" x1="36" y1="78" x2="33" y2="88" style="animation-delay:0s"/><line class="drop" x1="44" y1="78" x2="41" y2="88" style="animation-delay:0.35s"/><line class="drop" x1="80" y1="78" x2="77" y2="88" style="animation-delay:0.2s"/><line class="drop" x1="88" y1="78" x2="85" y2="88" style="animation-delay:0.6s"/><line class="drop" x1="72" y1="78" x2="69" y2="88" style="animation-delay:0.85s"/></svg></div>
+    <div class="d-cond">Chuva com trovoadas</div>
+    <div class="d-temp"><span class="hi">26°</span><span class="lo">18°</span></div>
+    <div class="d-rain"><svg viewBox="0 0 10 14" class="dropico" aria-hidden="true"><path d="M5 0C5 0 0 6.5 0 9.2A5 5 0 0 0 10 9.2C10 6.5 5 0 5 0Z"/></svg>
+      <b>10,1 mm</b><span class="pp">68%</span></div>
+    <div class="bar sm"><i style="--w:68%"></i></div>
+    <div class="d-gust">rajadas até 53 km/h</div>
+    <div class="d-agree"><span class="agree lvl2" title="Concordância média: desvio-padrão da máxima 2,3 °C; 90% das fontes com chuva ≥ 1 mm; coef. de variação da chuva 0,67"><span class="segs"><i class="on" style="--i:0"></i><i class="on" style="--i:1"></i><i class="" style="--i:2"></i></span><span class="agree-lab">média</span></span></div>
+    <div class="d-badges"><span class="dbadge">trovoadas</span><span class="dbadge soft">rajadas até 53 km/h</span></div>
+  </article>
+  <article class="day" style="--d:5">
+    <div class="d-head"><span class="d-wd">Dom</span><span class="d-dt">11/10</span></div>
+    <div class="d-icon"><svg class="wx wx-showers " viewBox="0 0 120 110" role="img" aria-hidden="true"><g class="sun" style="transform-origin:34px 32px"><g class="rays" style="transform-origin:34px 32px"><line x1="34" y1="5" x2="34" y2="11" transform="rotate(0 34 32)"/><line x1="34" y1="5" x2="34" y2="11" transform="rotate(45 34 32)"/><line x1="34" y1="5" x2="34" y2="11" transform="rotate(90 34 32)"/><line x1="34" y1="5" x2="34" y2="11" transform="rotate(135 34 32)"/><line x1="34" y1="5" x2="34" y2="11" transform="rotate(180 34 32)"/><line x1="34" y1="5" x2="34" y2="11" transform="rotate(225 34 32)"/><line x1="34" y1="5" x2="34" y2="11" transform="rotate(270 34 32)"/><line x1="34" y1="5" x2="34" y2="11" transform="rotate(315 34 32)"/></g><circle cx="34" cy="32" r="15" fill="url(#gSun)"/></g><g class="cloud cloud-front" fill="url(#gCloud)"><circle cx="38" cy="58" r="16"/><circle cx="60" cy="47" r="22"/><circle cx="82" cy="59" r="15"/><rect x="38" y="52" width="44" height="22"/></g><line class="drop" x1="48" y1="78" x2="45" y2="88" style="animation-delay:0s"/><line class="drop" x1="62" y1="78" x2="59" y2="88" style="animation-delay:0.4s"/><line class="drop" x1="76" y1="78" x2="73" y2="88" style="animation-delay:0.2s"/></svg></div>
+    <div class="d-cond">Nublado com pancadas</div>
+    <div class="d-temp"><span class="hi">24°</span><span class="lo">17°</span></div>
+    <div class="d-rain"><svg viewBox="0 0 10 14" class="dropico" aria-hidden="true"><path d="M5 0C5 0 0 6.5 0 9.2A5 5 0 0 0 10 9.2C10 6.5 5 0 5 0Z"/></svg>
+      <b>9,8 mm</b><span class="pp">83%</span></div>
+    <div class="bar sm"><i style="--w:83%"></i></div>
+    <div class="d-gust">rajadas até 44 km/h</div>
+    <div class="d-agree"><span class="agree lvl2" title="Concordância média: desvio-padrão da máxima 2,0 °C; 100% das fontes com chuva ≥ 1 mm; coef. de variação da chuva 0,39"><span class="segs"><i class="on" style="--i:0"></i><i class="on" style="--i:1"></i><i class="" style="--i:2"></i></span><span class="agree-lab">média</span></span></div>
+    <div class="d-badges"></div>
+  </article>
+  <article class="day" style="--d:6">
+    <div class="d-head"><span class="d-wd">Seg</span><span class="d-dt">12/10</span></div>
+    <div class="d-icon"><svg class="wx wx-rain " viewBox="0 0 120 110" role="img" aria-hidden="true"><g class="cloud cloud-front" fill="url(#gCloudRain)"><circle cx="38" cy="58" r="16"/><circle cx="60" cy="47" r="22"/><circle cx="82" cy="59" r="15"/><rect x="38" y="52" width="44" height="22"/></g><line class="drop" x1="38" y1="78" x2="35" y2="88" style="animation-delay:0s"/><line class="drop" x1="48" y1="78" x2="45" y2="88" style="animation-delay:0.3s"/><line class="drop" x1="58" y1="78" x2="55" y2="88" style="animation-delay:0.6s"/><line class="drop" x1="68" y1="78" x2="65" y2="88" style="animation-delay:0.15s"/><line class="drop" x1="78" y1="78" x2="75" y2="88" style="animation-delay:0.45s"/><line class="drop" x1="86" y1="78" x2="83" y2="88" style="animation-delay:0.75s"/></svg></div>
+    <div class="d-cond">Chuva</div>
+    <div class="d-temp"><span class="hi">22°</span><span class="lo">17°</span></div>
+    <div class="d-rain"><svg viewBox="0 0 10 14" class="dropico" aria-hidden="true"><path d="M5 0C5 0 0 6.5 0 9.2A5 5 0 0 0 10 9.2C10 6.5 5 0 5 0Z"/></svg>
+      <b>23,5 mm</b><span class="pp">86%</span></div>
+    <div class="bar sm"><i style="--w:86%"></i></div>
+    <div class="d-gust">rajadas até 54 km/h</div>
+    <div class="d-agree"><span class="agree lvl2" title="Concordância média: desvio-padrão da máxima 1,6 °C; 100% das fontes com chuva ≥ 1 mm; coef. de variação da chuva 0,70"><span class="segs"><i class="on" style="--i:0"></i><i class="on" style="--i:1"></i><i class="" style="--i:2"></i></span><span class="agree-lab">média</span></span></div>
+    <div class="d-badges"><span class="dbadge">chuva forte</span><span class="dbadge soft">rajadas até 54 km/h</span></div>
+  </article></div></section>
+<section class="charts reveal">
+  <div class="panel"><h3>Temperatura (°C)</h3><p class="h3n">Mínima e máxima médias do consenso, com a faixa entre as fontes</p><svg class="chart tchart" viewBox="0 0 560 320" role="img" aria-label="Temperaturas mínima e máxima médias por dia"><line class="grid" x1="40" x2="546" y1="270.0" y2="270.0"/><text class="ax" x="32" y="274.0" text-anchor="end">10°</text><line class="grid" x1="40" x2="546" y1="222.0" y2="222.0"/><text class="ax" x="32" y="226.0" text-anchor="end">15°</text><line class="grid" x1="40" x2="546" y1="174.0" y2="174.0"/><text class="ax" x="32" y="178.0" text-anchor="end">20°</text><line class="grid" x1="40" x2="546" y1="126.0" y2="126.0"/><text class="ax" x="32" y="130.0" text-anchor="end">25°</text><line class="grid" x1="40" x2="546" y1="78.0" y2="78.0"/><text class="ax" x="32" y="82.0" text-anchor="end">30°</text><line class="grid" x1="40" x2="546" y1="30.0" y2="30.0"/><text class="ax" x="32" y="34.0" text-anchor="end">35°</text><polygon class="band band-max" points="76.1,174.0 148.4,116.4 220.7,87.6 293.0,49.2 365.3,87.6 437.6,97.2 509.9,135.6 509.9,183.6 437.6,164.4 365.3,164.4 293.0,116.4 220.7,126.0 148.4,154.8 76.1,222.0"/><polygon class="band band-min" points="76.1,222.0 148.4,212.4 220.7,183.6 293.0,183.6 365.3,174.0 437.6,193.2 509.9,193.2 509.9,212.4 437.6,212.4 365.3,222.0 293.0,222.0 220.7,241.2 148.4,231.6 76.1,241.2"/><path class="line draw lmax" d="M76.1,195.1 C88.2,184.6 124.3,146.6 148.4,131.8 C172.5,116.9 196.6,112.6 220.7,105.8 C244.8,99.1 268.9,89.2 293.0,91.4 C317.1,93.7 341.2,111.3 365.3,119.3 C389.4,127.3 413.5,133.5 437.6,139.4 C461.7,145.4 497.8,152.2 509.9,154.8" pathLength="1" stroke="url(#gTmax)"/><g class="pt" style="--i:0"><circle class="dot lmax" cx="76.1" cy="195.1" r="5"/><text class="val lmax" x="76.1" y="181.1" text-anchor="middle">18°</text></g><g class="pt" style="--i:1"><circle class="dot lmax" cx="148.4" cy="131.8" r="5"/><text class="val lmax" x="148.4" y="117.8" text-anchor="middle">24°</text></g><g class="pt" style="--i:2"><circle class="dot lmax" cx="220.7" cy="105.8" r="5"/><text class="val lmax" x="220.7" y="91.8" text-anchor="middle">27°</text></g><g class="pt" style="--i:3"><circle class="dot lmax" cx="293.0" cy="91.4" r="5"/><text class="val lmax" x="293.0" y="77.4" text-anchor="middle">29°</text></g><g class="pt" style="--i:4"><circle class="dot lmax" cx="365.3" cy="119.3" r="5"/><text class="val lmax" x="365.3" y="105.3" text-anchor="middle">26°</text></g><g class="pt" style="--i:5"><circle class="dot lmax" cx="437.6" cy="139.4" r="5"/><text class="val lmax" x="437.6" y="125.4" text-anchor="middle">24°</text></g><g class="pt" style="--i:6"><circle class="dot lmax" cx="509.9" cy="154.8" r="5"/><text class="val lmax" x="509.9" y="140.8" text-anchor="middle">22°</text></g><path class="line draw lmin" d="M76.1,232.6 C88.2,231.1 124.3,227.4 148.4,223.9 C172.5,220.4 196.6,215.4 220.7,211.4 C244.8,207.4 268.9,202.2 293.0,199.9 C317.1,197.7 341.2,197.7 365.3,198.0 C389.4,198.3 413.5,200.4 437.6,201.8 C461.7,203.3 497.8,205.8 509.9,206.6" pathLength="1" stroke="url(#gTmin)"/><g class="pt" style="--i:0"><circle class="dot lmin" cx="76.1" cy="232.6" r="5"/><text class="val lmin" x="76.1" y="256.6" text-anchor="middle">14°</text></g><g class="pt" style="--i:1"><circle class="dot lmin" cx="148.4" cy="223.9" r="5"/><text class="val lmin" x="148.4" y="247.9" text-anchor="middle">15°</text></g><g class="pt" style="--i:2"><circle class="dot lmin" cx="220.7" cy="211.4" r="5"/><text class="val lmin" x="220.7" y="235.4" text-anchor="middle">16°</text></g><g class="pt" style="--i:3"><circle class="dot lmin" cx="293.0" cy="199.9" r="5"/><text class="val lmin" x="293.0" y="223.9" text-anchor="middle">17°</text></g><g class="pt" style="--i:4"><circle class="dot lmin" cx="365.3" cy="198.0" r="5"/><text class="val lmin" x="365.3" y="222.0" text-anchor="middle">18°</text></g><g class="pt" style="--i:5"><circle class="dot lmin" cx="437.6" cy="201.8" r="5"/><text class="val lmin" x="437.6" y="225.8" text-anchor="middle">17°</text></g><g class="pt" style="--i:6"><circle class="dot lmin" cx="509.9" cy="206.6" r="5"/><text class="val lmin" x="509.9" y="230.6" text-anchor="middle">17°</text></g><text class="xl" x="76.1" y="294" text-anchor="middle">Hoje</text><text class="xl2" x="76.1" y="310" text-anchor="middle">06/10</text><text class="xl" x="148.4" y="294" text-anchor="middle">Qua</text><text class="xl2" x="148.4" y="310" text-anchor="middle">07/10</text><text class="xl" x="220.7" y="294" text-anchor="middle">Qui</text><text class="xl2" x="220.7" y="310" text-anchor="middle">08/10</text><text class="xl" x="293.0" y="294" text-anchor="middle">Sex</text><text class="xl2" x="293.0" y="310" text-anchor="middle">09/10</text><text class="xl" x="365.3" y="294" text-anchor="middle">Sáb</text><text class="xl2" x="365.3" y="310" text-anchor="middle">10/10</text><text class="xl" x="437.6" y="294" text-anchor="middle">Dom</text><text class="xl2" x="437.6" y="310" text-anchor="middle">11/10</text><text class="xl" x="509.9" y="294" text-anchor="middle">Seg</text><text class="xl2" x="509.9" y="310" text-anchor="middle">12/10</text></svg><div class="legend"><span><i class="lg lmax"></i>Máxima média</span><span><i class="lg lmin"></i>Mínima média</span><span><i class="lg band"></i>Faixa entre as fontes</span></div></div>
+  <div class="panel"><h3>Chuva prevista (mm)</h3><p class="h3n">Volume médio por dia, com o menor e o maior valor entre as fontes</p><svg class="chart rchart" viewBox="0 0 560 320" role="img" aria-label="Chuva média prevista por dia (mm) e probabilidade"><line class="grid" x1="40" x2="546" y1="250.0" y2="250.0"/><text class="ax" x="32" y="254.0" text-anchor="end">0</text><line class="grid" x1="40" x2="546" y1="195.0" y2="195.0"/><text class="ax" x="32" y="199.0" text-anchor="end">20</text><line class="grid" x1="40" x2="546" y1="140.0" y2="140.0"/><text class="ax" x="32" y="144.0" text-anchor="end">40</text><line class="grid" x1="40" x2="546" y1="85.0" y2="85.0"/><text class="ax" x="32" y="89.0" text-anchor="end">60</text><line class="grid" x1="40" x2="546" y1="30.0" y2="30.0"/><text class="ax" x="32" y="34.0" text-anchor="end">80</text><text class="ax" x="32" y="18" text-anchor="end">mm</text><g class="rbar" style="--i:0"><rect class="bar-r" x="59.5" y="182.9" width="33.3" height="67.1" rx="6" fill="url(#gBarHi)"/><g class="whisk"><line x1="76.1" x2="76.1" y1="116.6" y2="245.3"/><line x1="69.1" x2="83.1" y1="116.6" y2="116.6"/><line x1="69.1" x2="83.1" y1="245.3" y2="245.3"/></g><text class="val vr" x="96.8" y="186.9" text-anchor="start">24,4</text></g><text class="xl" x="76.1" y="274" text-anchor="middle">Hoje</text><text class="xl2" x="76.1" y="289" text-anchor="middle">06/10</text><text class="prob" x="76.1" y="310" text-anchor="middle">96%</text><g class="rbar" style="--i:1"><rect class="bar-r" x="131.8" y="243.1" width="33.3" height="6.9" rx="6" fill="url(#gBar)"/><g class="whisk"><line x1="148.4" x2="148.4" y1="229.1" y2="249.7"/><line x1="141.4" x2="155.4" y1="229.1" y2="229.1"/><line x1="141.4" x2="155.4" y1="249.7" y2="249.7"/></g><text class="val vr" x="169.1" y="247.1" text-anchor="start">2,5</text></g><text class="xl" x="148.4" y="274" text-anchor="middle">Qua</text><text class="xl2" x="148.4" y="289" text-anchor="middle">07/10</text><text class="prob" x="148.4" y="310" text-anchor="middle">59%</text><g class="rbar" style="--i:2"><rect class="bar-r" x="204.1" y="243.4" width="33.3" height="6.6" rx="6" fill="url(#gBar)"/><g class="whisk"><line x1="220.7" x2="220.7" y1="231.9" y2="250.0"/><line x1="213.7" x2="227.7" y1="231.9" y2="231.9"/><line x1="213.7" x2="227.7" y1="250.0" y2="250.0"/></g><text class="val vr" x="241.3" y="247.4" text-anchor="start">2,4</text></g><text class="xl" x="220.7" y="274" text-anchor="middle">Qui</text><text class="xl2" x="220.7" y="289" text-anchor="middle">08/10</text><text class="prob" x="220.7" y="310" text-anchor="middle">52%</text><g class="rbar" style="--i:3"><rect class="bar-r" x="276.4" y="236.2" width="33.3" height="13.8" rx="6" fill="url(#gBar)"/><g class="whisk"><line x1="293.0" x2="293.0" y1="215.9" y2="248.3"/><line x1="286.0" x2="300.0" y1="215.9" y2="215.9"/><line x1="286.0" x2="300.0" y1="248.3" y2="248.3"/></g><text class="val vr" x="313.6" y="240.2" text-anchor="start">5,0</text></g><text class="xl" x="293.0" y="274" text-anchor="middle">Sex</text><text class="xl2" x="293.0" y="289" text-anchor="middle">09/10</text><text class="prob" x="293.0" y="310" text-anchor="middle">67%</text><g class="rbar" style="--i:4"><rect class="bar-r" x="348.7" y="222.2" width="33.3" height="27.8" rx="6" fill="url(#gBar)"/><g class="whisk"><line x1="365.3" x2="365.3" y1="174.4" y2="249.2"/><line x1="358.3" x2="372.3" y1="174.4" y2="174.4"/><line x1="358.3" x2="372.3" y1="249.2" y2="249.2"/></g><text class="val vr" x="385.9" y="226.2" text-anchor="start">10,1</text></g><text class="xl" x="365.3" y="274" text-anchor="middle">Sáb</text><text class="xl2" x="365.3" y="289" text-anchor="middle">10/10</text><text class="prob" x="365.3" y="310" text-anchor="middle">68%</text><g class="rbar" style="--i:5"><rect class="bar-r" x="420.9" y="223.1" width="33.3" height="26.9" rx="6" fill="url(#gBar)"/><g class="whisk"><line x1="437.6" x2="437.6" y1="198.8" y2="235.4"/><line x1="430.6" x2="444.6" y1="198.8" y2="198.8"/><line x1="430.6" x2="444.6" y1="235.4" y2="235.4"/></g><text class="val vr" x="458.2" y="227.1" text-anchor="start">9,8</text></g><text class="xl" x="437.6" y="274" text-anchor="middle">Dom</text><text class="xl2" x="437.6" y="289" text-anchor="middle">11/10</text><text class="prob" x="437.6" y="310" text-anchor="middle">83%</text><g class="rbar" style="--i:6"><rect class="bar-r" x="493.2" y="185.4" width="33.3" height="64.6" rx="6" fill="url(#gBarHi)"/><g class="whisk"><line x1="509.9" x2="509.9" y1="78.4" y2="226.4"/><line x1="502.9" x2="516.9" y1="78.4" y2="78.4"/><line x1="502.9" x2="516.9" y1="226.4" y2="226.4"/></g><text class="val vr" x="530.5" y="189.4" text-anchor="start">23,5</text></g><text class="xl" x="509.9" y="274" text-anchor="middle">Seg</text><text class="xl2" x="509.9" y="289" text-anchor="middle">12/10</text><text class="prob" x="509.9" y="310" text-anchor="middle">86%</text></svg><div class="legend"><span><i class="lg bar"></i>Chuva média (mm)</span><span><i class="lg whisk"></i>Menor–maior valor entre fontes</span><span><i class="lg probt">%</i>Chance de chuva (média)</span></div></div>
+</section>
+
+<section class="agree-sec reveal"><h2 class="sec">Concordância das fontes</h2>
+  <p class="sec-note">Quanto mais as previsões independentes coincidem, mais confiável o consenso. A nota de cada dia é a pior entre três critérios: dispersão da máxima, divisão entre fontes que preveem chuva ou tempo seco e dispersão do volume de chuva.</p>
+  <div class="ag-list">
+    <div class="ag-row" style="--i:0">
+      <div class="ag-day"><b>Hoje</b> <span>06/10</span></div>
+      <div class="ag-meter"><span class="agree lvl2" title="Concordância média: desvio-padrão da máxima 1,5 °C; 100% das fontes com chuva ≥ 1 mm; coef. de variação da chuva 0,54"><span class="segs"><i class="on" style="--i:0"></i><i class="on" style="--i:1"></i><i class="" style="--i:2"></i></span><span class="agree-lab">média</span></span></div>
+      <div class="ag-det"><span title="Desvio-padrão da temperatura máxima entre as fontes">σ máx. <b>1,5 °C</b></span>
+        <span class="ag-wet" title="Parcela das fontes que preveem ao menos 1 mm"><span>chuva ≥ 1 mm: <b>100%</b></span><span class="bar sm"><i style="--w:100%"></i></span></span>
+        <span title="Coeficiente de variação do volume de chuva">CV chuva <b>0,54</b></span>
+        <span><b>13</b> fontes</span></div>
+    </div>
+    <div class="ag-row" style="--i:1">
+      <div class="ag-day"><b>Quarta</b> <span>07/10</span></div>
+      <div class="ag-meter"><span class="agree lvl1" title="Concordância baixa: desvio-padrão da máxima 1,1 °C; 58% das fontes com chuva ≥ 1 mm; coef. de variação da chuva 1,02"><span class="segs"><i class="on" style="--i:0"></i><i class="" style="--i:1"></i><i class="" style="--i:2"></i></span><span class="agree-lab">baixa</span></span></div>
+      <div class="ag-det"><span title="Desvio-padrão da temperatura máxima entre as fontes">σ máx. <b>1,1 °C</b></span>
+        <span class="ag-wet" title="Parcela das fontes que preveem ao menos 1 mm"><span>chuva ≥ 1 mm: <b>58%</b></span><span class="bar sm"><i style="--w:58%"></i></span></span>
+        <span title="Coeficiente de variação do volume de chuva">CV chuva <b>1,02</b></span>
+        <span><b>13</b> fontes</span></div>
+    </div>
+    <div class="ag-row" style="--i:2">
+      <div class="ag-day"><b>Quinta</b> <span>08/10</span></div>
+      <div class="ag-meter"><span class="agree lvl2" title="Concordância média: desvio-padrão da máxima 0,9 °C; 67% das fontes com chuva ≥ 1 mm; coef. de variação da chuva 0,88"><span class="segs"><i class="on" style="--i:0"></i><i class="on" style="--i:1"></i><i class="" style="--i:2"></i></span><span class="agree-lab">média</span></span></div>
+      <div class="ag-det"><span title="Desvio-padrão da temperatura máxima entre as fontes">σ máx. <b>0,9 °C</b></span>
+        <span class="ag-wet" title="Parcela das fontes que preveem ao menos 1 mm"><span>chuva ≥ 1 mm: <b>67%</b></span><span class="bar sm"><i style="--w:67%"></i></span></span>
+        <span title="Coeficiente de variação do volume de chuva">CV chuva <b>0,88</b></span>
+        <span><b>13</b> fontes</span></div>
+    </div>
+    <div class="ag-row" style="--i:3">
+      <div class="ag-day"><b>Sexta</b> <span>09/10</span></div>
+      <div class="ag-meter"><span class="agree lvl2" title="Concordância média: desvio-padrão da máxima 1,7 °C; 91% das fontes com chuva ≥ 1 mm; coef. de variação da chuva 0,58"><span class="segs"><i class="on" style="--i:0"></i><i class="on" style="--i:1"></i><i class="" style="--i:2"></i></span><span class="agree-lab">média</span></span></div>
+      <div class="ag-det"><span title="Desvio-padrão da temperatura máxima entre as fontes">σ máx. <b>1,7 °C</b></span>
+        <span class="ag-wet" title="Parcela das fontes que preveem ao menos 1 mm"><span>chuva ≥ 1 mm: <b>91%</b></span><span class="bar sm"><i style="--w:91%"></i></span></span>
+        <span title="Coeficiente de variação do volume de chuva">CV chuva <b>0,58</b></span>
+        <span><b>12</b> fontes</span></div>
+    </div>
+    <div class="ag-row" style="--i:4">
+      <div class="ag-day"><b>Sábado</b> <span>10/10</span></div>
+      <div class="ag-meter"><span class="agree lvl2" title="Concordância média: desvio-padrão da máxima 2,3 °C; 90% das fontes com chuva ≥ 1 mm; coef. de variação da chuva 0,67"><span class="segs"><i class="on" style="--i:0"></i><i class="on" style="--i:1"></i><i class="" style="--i:2"></i></span><span class="agree-lab">média</span></span></div>
+      <div class="ag-det"><span title="Desvio-padrão da temperatura máxima entre as fontes">σ máx. <b>2,3 °C</b></span>
+        <span class="ag-wet" title="Parcela das fontes que preveem ao menos 1 mm"><span>chuva ≥ 1 mm: <b>90%</b></span><span class="bar sm"><i style="--w:90%"></i></span></span>
+        <span title="Coeficiente de variação do volume de chuva">CV chuva <b>0,67</b></span>
+        <span><b>11</b> fontes</span></div>
+    </div>
+    <div class="ag-row" style="--i:5">
+      <div class="ag-day"><b>Domingo</b> <span>11/10</span></div>
+      <div class="ag-meter"><span class="agree lvl2" title="Concordância média: desvio-padrão da máxima 2,0 °C; 100% das fontes com chuva ≥ 1 mm; coef. de variação da chuva 0,39"><span class="segs"><i class="on" style="--i:0"></i><i class="on" style="--i:1"></i><i class="" style="--i:2"></i></span><span class="agree-lab">média</span></span></div>
+      <div class="ag-det"><span title="Desvio-padrão da temperatura máxima entre as fontes">σ máx. <b>2,0 °C</b></span>
+        <span class="ag-wet" title="Parcela das fontes que preveem ao menos 1 mm"><span>chuva ≥ 1 mm: <b>100%</b></span><span class="bar sm"><i style="--w:100%"></i></span></span>
+        <span title="Coeficiente de variação do volume de chuva">CV chuva <b>0,39</b></span>
+        <span><b>9</b> fontes</span></div>
+    </div>
+    <div class="ag-row" style="--i:6">
+      <div class="ag-day"><b>Segunda</b> <span>12/10</span></div>
+      <div class="ag-meter"><span class="agree lvl2" title="Concordância média: desvio-padrão da máxima 1,6 °C; 100% das fontes com chuva ≥ 1 mm; coef. de variação da chuva 0,70"><span class="segs"><i class="on" style="--i:0"></i><i class="on" style="--i:1"></i><i class="" style="--i:2"></i></span><span class="agree-lab">média</span></span></div>
+      <div class="ag-det"><span title="Desvio-padrão da temperatura máxima entre as fontes">σ máx. <b>1,6 °C</b></span>
+        <span class="ag-wet" title="Parcela das fontes que preveem ao menos 1 mm"><span>chuva ≥ 1 mm: <b>100%</b></span><span class="bar sm"><i style="--w:100%"></i></span></span>
+        <span title="Coeficiente de variação do volume de chuva">CV chuva <b>0,70</b></span>
+        <span><b>8</b> fontes</span></div>
+    </div></div>
+</section>
+
+<footer class="foot reveal">
+  <div class="foot-grid">
+    <div><h3>Fontes que contribuíram (13)</h3><ul class="srcs"><li><b>Climatempo</b> <span>7 dia(s)</span></li><li><b>INMET</b> <span>5 dia(s)</span></li><li><b>MET Norway (Yr)</b> <span>7 dia(s)</span></li><li><b>Simepar</b> <span>7 dia(s)</span></li><li><b>wttr.in (WorldWeatherOnline)</b> <span>3 dia(s)</span></li><li><b>Open-Meteo</b> — 8 modelos: CMA GRAPES <span>(5d)</span>, CMC GEM <span>(7d)</span>, DWD ICON <span>(7d)</span>, ECMWF IFS 0.25 <span>(7d)</span>, JMA <span>(7d)</span>, Météo-France ARPEGE/AROME <span>(4d)</span>, NOAA GFS <span>(7d)</span>, UK Met Office <span>(6d)</span></li></ul></div>
+    <div><h3>Método</h3>
+      <p>Cada valor é a <b>média das fontes disponíveis</b> para aquela variável (fontes que não informam uma variável ficam fora daquela média). As faixas mostram o menor e o maior valor entre as fontes; "rajadas" é o maior valor previsto por alguma fonte.</p>
+      <p>Condição: <b>trovoadas</b> quando ≥ 30% das fontes indicam tempestade (ou há alerta INMET de tempestade/chuvas intensas) e a média é ≥ 2 mm; <b>chuva</b> com média ≥ 10 mm; <b>pancadas</b> com ≥ 2 mm.</p>
+      <p class="caveat">Ressalvas: MET Norway usa base ECMWF (não é totalmente independente); INMET não fornece milímetros nem probabilidade; wttr.in cobre só 3 dias; o número de fontes cai nos últimos dias do período. Alertas: INMET (fonte oficial). Previsões podem mudar — consulte a Defesa Civil (199) em emergências.</p>
+    </div>
+  </div>
+  <div class="foot-meta">Painel gerado automaticamente em 06/10/2026 às 08:16 (BRT) · dados de 06/10 07:55 (BRT) · período 06/10 a 12/10</div>
+</footer>
+</main>
+<script>
+(function(){
+  var d=document.documentElement; d.classList.remove('no-js'); d.classList.add('js');
+  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function fmt(v,nd){return v.toFixed(nd).replace('.',',');}
+  function countUp(root){
+    root.querySelectorAll('.count').forEach(function(el){
+      var to=parseFloat(el.getAttribute('data-to')); if(isNaN(to)||reduce) return;
+      var nd=+el.getAttribute('data-nd')||0, t0=null, dur=1300, final=el.textContent;
+      function step(t){ if(!t0) t0=t; var p=Math.min((t-t0)/dur,1), e=1-Math.pow(1-p,3);
+        el.textContent=fmt(to*e,nd); if(p<1) requestAnimationFrame(step); else el.textContent=final; }
+      requestAnimationFrame(step);
+    });
+  }
+  function show(el){ if(el.classList.contains('in')) return; el.classList.add('in'); countUp(el); }
+  var els=[].slice.call(document.querySelectorAll('.reveal'));
+  if(!('IntersectionObserver' in window)){ els.forEach(show); return; }
+  var io=new IntersectionObserver(function(ents){ ents.forEach(function(e){ if(e.isIntersecting){ show(e.target); io.unobserve(e.target);} }); },{threshold:0.12});
+  els.forEach(function(el){ io.observe(el); });
+  window.__showAll=function(){ els.forEach(show); };
+})();
+</script>
+</body>
+</html>
